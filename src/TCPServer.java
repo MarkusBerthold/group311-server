@@ -1,22 +1,26 @@
 import java.io.BufferedReader;
-
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.*;
 
-import com.google.gson.Gson;
+
 
 public class TCPServer {
 
 	public static void main(String[] args) throws IOException {
 		
+		String json = "";
+		
+		Gson serialiser = new Gson();
+		
 		Human Emil = serialiser.fromJson(json, Human.class);
 		
 		
-		Gson g1 = new Gson();
 		
-		String json = "";
+		
+		
 		
 		while (true) {
 			try {
