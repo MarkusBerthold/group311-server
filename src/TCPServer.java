@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.net.*;
 
 
@@ -11,16 +10,11 @@ public class TCPServer {
 
 	public static void main(String[] args) throws IOException {
 		
-		String json = "";
+		String json = new String ("");
 		
 		Gson serialiser = new Gson();
 		
 		Human Emil = serialiser.fromJson(json, Human.class);
-		
-		
-		
-		
-		
 		
 		while (true) {
 			try {
@@ -29,17 +23,13 @@ public class TCPServer {
 
 				Socket sock = socket.accept();
 
-				BufferedReader inFromClient = new BufferedReader(new InputStreamReader(sock.getInputStream()));	
-				
-				json = new String(inFromClient.readLine());				
-				
-				g1.toJson(json);
-				
-				//g1.fromJson(json, );
+				BufferedReader inFromClient = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+	
+				json = inFromClient.readLine();	//NullPointerException
 
-				//System.out.println(inFromClient.readLine());
+				serialiser.fromJson(json, Human.class);
 				
-				System.out.println(g1);				
+				System.out.println(json);
 
 				socket.close();
 
