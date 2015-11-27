@@ -25,11 +25,12 @@ public class TCPServer implements Runnable {
 		Thread threadTwo = new Thread(tcpServer);
 		Thread threadThree = new Thread(tcpServer);
 		Thread threadFour = new Thread(tcpServer);
+		Thread threadFive = new Thread(tcpServer);
 		threadOne.start();
-
 		threadTwo.start();
 		threadThree.start();
 		threadFour.start();
+		threadFive.start();
 		
 		
 		ServerSocket socket = new ServerSocket(2222);
@@ -42,6 +43,10 @@ public class TCPServer implements Runnable {
 				Socket sock = socket.accept();
 
 				connectionArray.add(sock);
+				
+				
+				
+				
 				System.out.println("Added a player: " + sock);
 
 				System.out.println("Client's InetAddress: " + sock.getInetAddress());
@@ -54,6 +59,7 @@ public class TCPServer implements Runnable {
 
 				// CREATE ALL THE OTHER CLASS AS OBJECTS HERE, BUT MAKE SURE THAT THERE IS ONLY 1 PER PLAYER
 				Train train = new Gson().fromJson(msg, Train.class);
+				 
 				
 
 				//What is being sent back to the client
@@ -93,6 +99,11 @@ public class TCPServer implements Runnable {
 		} finally {
 			socket.close();
 		}
+		
+		Players p1 = new Players(connectionArray.get(1), "player1");
+		Players p2 = new Players(connectionArray.get(2), "player2");
+		Players p3 = new Players(connectionArray.get(3), "player3");
+		Players p4 = new Players(connectionArray.get(4), "player4");
 	}
 	
 	public void run() {
