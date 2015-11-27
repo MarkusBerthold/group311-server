@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.Flushable;
 
 import com.google.gson.Gson;
 
@@ -9,15 +8,30 @@ import java.io.PrintStream;
 import java.net.*;
 import java.util.ArrayList;
 
-public class TCPServer {
+public class TCPServer implements Runnable {
+	
+	
 
 	public static ArrayList<Socket> connectionArray = new ArrayList<Socket>();
 	
 	public static int gameState = 0;
-	public static boolean gameHasBeenInstatiated = false;
+	public static boolean gameHasBeenInitiated = false;
 
 	public static void main(String[] args) throws IOException {
+		
+		TCPServer tcpServer = new TCPServer();
+		
+		Thread threadOne = new Thread(tcpServer);
+		Thread threadTwo = new Thread(tcpServer);
+		Thread threadThree = new Thread(tcpServer);
+		Thread threadFour = new Thread(tcpServer);
+		threadOne.start();
 
+		threadTwo.start();
+		threadThree.start();
+		threadFour.start();
+		
+		
 		ServerSocket socket = new ServerSocket(2222);
 
 		try {
@@ -38,8 +52,9 @@ public class TCPServer {
 
 				String msg = inFromClient.readLine();
 
-				// CREATE ALL THE OTHER CLASS AS OBJECTS HERE
+				// CREATE ALL THE OTHER CLASS AS OBJECTS HERE, BUT MAKE SURE THAT THERE IS ONLY 1 PER PLAYER
 				Train train = new Gson().fromJson(msg, Train.class);
+				
 
 				//What is being sent back to the client
 				if (msg != null) {
@@ -49,21 +64,24 @@ public class TCPServer {
 							
 							ps.println("You are player " + i + "\n"); // Remember to add "\n" just like ";"
 							ps.println("mkay" + "\n");
-							
 						}
 					} 
 
 					 //ps.println("msg received"); // Will be sent to the client
 				}
 
-				if (connectionArray.size() == 4 && !gameHasBeenInstatiated) {
+				if (connectionArray.size() == 4 && !gameHasBeenInitiated) {
 					gameState = 1; // 1 for initiate game
 
 					initiateGame();
 
-					gameHasBeenInstatiated = true;
+					gameHasBeenInitiated = true;
 
 					System.out.println("Game is ready");
+					
+					PrintStream ps = new PrintStream(sock.getOutputStream(), true);
+					ps.println("Game has begun!" + "\n");
+						
 				}
 
 				System.out.println(msg);
@@ -76,12 +94,23 @@ public class TCPServer {
 			socket.close();
 		}
 	}
+	
+	public void run() {
+		System.out.println(Thread.currentThread().getName());
+		
+		
+	}
 
 	
 
 	public static void initiateGame() {
+		
+		//EMIT TO ALL PLAYERS THAT THE GAME HAS BEGUN
+		
+		
+		
 
-		for (int i = 1; i == connectionArray.size(); i++) {
+		for (int i = 1; i <= connectionArray.size(); i++) {
 			// if (connectionArray[i].) {
 
 			// }
