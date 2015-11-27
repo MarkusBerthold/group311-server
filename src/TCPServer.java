@@ -11,12 +11,17 @@ public class TCPServer {
 
 	public static ArrayList<Socket> connectionArray = new ArrayList<Socket>();
 	public static int gameState = 0;
-
+	 
+	static String[] players= new String[]{"player 1", "player 2", "player 3", "player 4"};
+	static Turn turn= new Turn(players);
+     
 	public static void main(String[] args) throws IOException {
 
+		turn.doThis();
+		 
 		ServerSocket socket = new ServerSocket(2222);
 
-
+		
 		try {
 			while (true) {
 
@@ -53,21 +58,17 @@ public class TCPServer {
 				if (connectionArray.size() == 4) {
 					gameState = 1; // 1 for initiate game
 					initiateGame();
-					
+
 					System.out.println("Game is ready");
 				}
 
 				/*
-				if (!sock.isConnected()) {
-					System.out.println(" A player is disc");
-					for (int i = 1; i == connectionArray.size(); i++) {
-						if (connectionArray.get(i) == sock) {
-							connectionArray.remove(i);
-							System.out.println("Removed player:" + sock);
-						}
-					}
-				}
-				*/
+				 * if (!sock.isConnected()) { System.out.println(
+				 * " A player is disc"); for (int i = 1; i ==
+				 * connectionArray.size(); i++) { if (connectionArray.get(i) ==
+				 * sock) { connectionArray.remove(i); System.out.println(
+				 * "Removed player:" + sock); } } }
+				 */
 
 				System.out.println(msg);
 
@@ -79,16 +80,14 @@ public class TCPServer {
 			socket.close();
 		}
 	}
-	
+
 	public static void initiateGame() {
-		
-		for(int i = 1; i == connectionArray.size(); i++) {
-		//	if (connectionArray[i].) {
-				
-			//}
+
+		for (int i = 1; i == connectionArray.size(); i++) {
+			// if (connectionArray[i].) {
+
+			// }
 		}
-		
-		
-		
+
 	}
 }
