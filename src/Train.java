@@ -1,9 +1,9 @@
-import java.awt.Color;
+
 
 public class Train {
 	
-	 public Color trainColor;
-	 public int amountOfTrains;
+	private Color trainColor;
+	private int amountOfTrains;
 	
 	Train(Color _trainColor){
 		this.trainColor = _trainColor;

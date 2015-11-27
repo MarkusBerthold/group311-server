@@ -58,7 +58,9 @@ public class TCPServer implements Runnable {
 				String msg = inFromClient.readLine();
 
 				// CREATE ALL THE OTHER CLASS AS OBJECTS HERE, BUT MAKE SURE THAT THERE IS ONLY 1 PER PLAYER
-				Train train = new Gson().fromJson(msg, Train.class);
+				//Train train = new Gson().fromJson(msg, Train.class);
+				//Board board = new Gson().fromJson(msg, Board.class);
+				TrainCardStack tcs = new Gson().fromJson(msg, TrainCardStack.class);
 				 
 				
 
@@ -91,8 +93,12 @@ public class TCPServer implements Runnable {
 				}
 
 				System.out.println(msg);
+				
+				//System.out.println(board.missionCardStack.card[5].color.getColorName());
+				
+				System.out.println(tcs);
 
-				System.out.println(train.amountOfTrains);
+				//System.out.println(train.amountOfTrains);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
