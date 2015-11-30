@@ -9,7 +9,7 @@ public class Turn {
 	
 	static Scanner sc;
 	int tmp;
-	boolean canAct;
+	
 
 	public Turn(String[] _players, int tmp) {
 		this.players = _players;
