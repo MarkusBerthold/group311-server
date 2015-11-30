@@ -6,22 +6,38 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class TCPServer {
 
+	// scanner is only for testing
+	static Scanner sc;
+	static int testInt;
+
 	public static ArrayList<Socket> connectionArray = new ArrayList<Socket>();
 	public static int gameState = 0;
-	 
-	static String[] players= new String[]{"player 1", "player 2", "player 3", "player 4"};
-	static Turn turn= new Turn(players);
-     
+
+	static String[] players = new String[] { "player 1", "player 2", "player 3", "player 4" };
+	static Turn turn = new Turn(players, testInt);
+
 	public static void main(String[] args) throws IOException {
 
-		turn.doThis();
-		 
+		sc = new Scanner(System.in);
+		
+
 		ServerSocket socket = new ServerSocket(2222);
 
 		
+		
+		while (testInt < 5) {
+			
+			testInt = 1;
+			turn.initialTurn();
+			
+			
+			
+		}
+
 		try {
 			while (true) {
 
