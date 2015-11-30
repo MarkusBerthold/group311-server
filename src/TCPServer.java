@@ -38,18 +38,23 @@ public class TCPServer implements Runnable {
 		try {
 			while (true) {
 
-				System.out.println("Server is running");
-
 				Socket sock = socket.accept();
+				System.out.println("Server is running and a new input arrived");
 
-				connectionArray.add(sock);
-				
-				
-				
-				
-				System.out.println("Added a player: " + sock);
-
-				System.out.println("Client's InetAddress: " + sock.getInetAddress());
+				if (!connectionArray.contains(sock)) {
+					connectionArray.add(sock);
+					System.out.println("Added a player: " + sock);
+					System.out.println("Client's InetAddress: " + sock.getInetAddress());
+					
+					PrintStream ps = new PrintStream(sock.getOutputStream(), true);
+					for (int i = 0; i < connectionArray.size(); i++) {
+						if (connectionArray.get(i) == sock) {
+							
+							ps.println("You are player " + (i+1) + "\n"); // Remember to add "\n" just like ";"
+							ps.println("mkay" + "\n");
+						}
+					}
+				}
 				
 				InputStreamReader isr = new InputStreamReader(sock.getInputStream());
 
@@ -58,6 +63,7 @@ public class TCPServer implements Runnable {
 				String msg = inFromClient.readLine();
 
 				// CREATE ALL THE OTHER CLASS AS OBJECTS HERE, BUT MAKE SURE THAT THERE IS ONLY 1 PER PLAYER
+				// also make sure that InFromCleint.readLine() fits whatever object is going to be changed
 				//Train train = new Gson().fromJson(msg, Train.class);
 				//Board board = new Gson().fromJson(msg, Board.class);
 				TrainCardStack tcs = new Gson().fromJson(msg, TrainCardStack.class);
@@ -66,14 +72,17 @@ public class TCPServer implements Runnable {
 
 				//What is being sent back to the client
 				if (msg != null) {
-					PrintStream ps = new PrintStream(sock.getOutputStream(), true);
-					for (int i = 1; i <= connectionArray.size() -1; i++) {
+					
+				/*	PrintStream ps = new PrintStream(sock.getOutputStream(), true);
+					for (int i = 0; i <= connectionArray.size(); i++) {
 						if (connectionArray.get(i) == sock) {
 							
 							ps.println("You are player " + i + "\n"); // Remember to add "\n" just like ";"
 							ps.println("mkay" + "\n");
+							
 						}
 					} 
+					*/
 
 					 //ps.println("msg received"); // Will be sent to the client
 				}
@@ -84,13 +93,38 @@ public class TCPServer implements Runnable {
 					initiateGame();
 
 					gameHasBeenInitiated = true;
+					
+					
+					Players p1 = new Players(connectionArray.get(0), "player1");
+					Players p2 = new Players(connectionArray.get(1), "player2");
+					Players p3 = new Players(connectionArray.get(2), "player3");
+					Players p4 = new Players(connectionArray.get(3), "player4");
+					
 
+					for (int i = 0; i < connectionArray.size(); i++) {
+						PrintStream ps = new PrintStream(connectionArray.get(i).getOutputStream(), true);
+						
+						String playerJson1 = new Gson().toJson(p1);
+						String playerJson2 = new Gson().toJson(p2);
+						String playerJson3 = new Gson().toJson(p3);
+						String playerJson4 = new Gson().toJson(p4);
+						
+						ps.println(playerJson1);
+						ps.println(playerJson2);
+						ps.println(playerJson3);
+						ps.println(playerJson4);
+					
+					}
+					
 					System.out.println("Game is ready");
 					
-					PrintStream ps = new PrintStream(sock.getOutputStream(), true);
+					for (int i = 0; i < connectionArray.size(); i++) {
+					PrintStream ps = new PrintStream(connectionArray.get(i).getOutputStream(), true);
 					ps.println("Game has begun!" + "\n");
+					}
 						
 				}
+				
 
 				System.out.println(msg);
 				
@@ -104,12 +138,7 @@ public class TCPServer implements Runnable {
 			e.printStackTrace();
 		} finally {
 			socket.close();
-		}
-		
-		Players p1 = new Players(connectionArray.get(1), "player1");
-		Players p2 = new Players(connectionArray.get(2), "player2");
-		Players p3 = new Players(connectionArray.get(3), "player3");
-		Players p4 = new Players(connectionArray.get(4), "player4");
+		}	
 	}
 	
 	public void run() {
@@ -122,11 +151,6 @@ public class TCPServer implements Runnable {
 
 	public static void initiateGame() {
 		
-		//EMIT TO ALL PLAYERS THAT THE GAME HAS BEGUN
-		
-		
-		
-
 		for (int i = 1; i <= connectionArray.size(); i++) {
 			// if (connectionArray[i].) {
 
