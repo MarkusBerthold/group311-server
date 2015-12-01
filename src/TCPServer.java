@@ -19,7 +19,7 @@ public class TCPServer {
 	public static int gameState = 0;
 
 	static String[] players = new String[] { "player 1", "player 2", "player 3", "player 4" };
-	static Turn turn = new Turn(players, testInt);
+	
 
 	public static void main(String[] args) throws IOException {
 
@@ -30,7 +30,7 @@ public class TCPServer {
 
 		
 			
-			turn.initialTurn();
+			
 			
 			
 			
