@@ -13,6 +13,7 @@ public class TCPServer {
 	// scanner is only for testing
 	static Scanner sc;
 	static int testInt;
+	static boolean gameHasBeenInitiated;
 
 	public static ArrayList<Socket> connectionArray = new ArrayList<Socket>();
 	public static int gameState = 0;
@@ -28,15 +29,12 @@ public class TCPServer {
 		ServerSocket socket = new ServerSocket(2222);
 
 		
-		
-		while (testInt < 5) {
 			
-			testInt = 1;
 			turn.initialTurn();
 			
 			
 			
-		}
+	
 
 		try {
 			while (true) {
@@ -44,7 +42,7 @@ public class TCPServer {
 				Socket sock = socket.accept();
 				System.out.println("Server is running and a new input arrived");
 
-<<<<<<< HEAD
+
 				/*
 				 * FOR CONNECTION CHECK, LATER for (int i = 1; i ==
 				 * connectionArray.size(); i++) { if
@@ -60,7 +58,7 @@ public class TCPServer {
 
 				System.out.println("Client connected from: " + sock.getInetAddress());
 
-=======
+
 				if (!connectionArray.contains(sock)) {
 					connectionArray.add(sock);
 					System.out.println("Added a player: " + sock);
@@ -76,16 +74,16 @@ public class TCPServer {
 					}
 				}
 				
->>>>>>> origin/master
+
 				InputStreamReader isr = new InputStreamReader(sock.getInputStream());
 
 				BufferedReader inFromClient = new BufferedReader(isr);
 
 				String msg = inFromClient.readLine();
 
-<<<<<<< HEAD
+
 				Train t = new Gson().fromJson(msg, Train.class);
-=======
+
 				// CREATE ALL THE OTHER CLASS AS OBJECTS HERE, BUT MAKE SURE THAT THERE IS ONLY 1 PER PLAYER
 				// also make sure that InFromCleint.readLine() fits whatever object is going to be changed
 				//Train train = new Gson().fromJson(msg, Train.class);
@@ -93,13 +91,13 @@ public class TCPServer {
 				TrainCardStack tcs = new Gson().fromJson(msg, TrainCardStack.class);
 				 
 				
->>>>>>> origin/master
+
 
 				if (msg != null) {
-<<<<<<< HEAD
+
 					PrintStream ps = new PrintStream(sock.getOutputStream());
 					ps.println("msg received"); // Will be sent to the client
-=======
+
 					
 				/*	PrintStream ps = new PrintStream(sock.getOutputStream(), true);
 					for (int i = 0; i <= connectionArray.size(); i++) {
@@ -113,16 +111,16 @@ public class TCPServer {
 					*/
 
 					 //ps.println("msg received"); // Will be sent to the client
->>>>>>> origin/master
+
 				}
 
 				if (connectionArray.size() == 4) {
 					gameState = 1; // 1 for initiate game
 					initiateGame();
 
-<<<<<<< HEAD
+
 					System.out.println("Game is ready");
-=======
+
 					gameHasBeenInitiated = true;
 					
 					
@@ -154,7 +152,7 @@ public class TCPServer {
 					ps.println("Game has begun!" + "\n");
 					}
 						
->>>>>>> origin/master
+
 				}
 				
 
@@ -172,41 +170,42 @@ public class TCPServer {
 				
 				System.out.println(tcs);
 
-<<<<<<< HEAD
+
 				System.out.println(t.amountOfTrains);
-=======
+
 				//System.out.println(train.amountOfTrains);
->>>>>>> origin/master
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			socket.close();
-<<<<<<< HEAD
+
 		}
-=======
+
 		}	
-	}
+	
 	
 	public void run() {
 		System.out.println(Thread.currentThread().getName());
 		
 		
->>>>>>> origin/master
+
 	}
 
 	public static void initiateGame() {
-<<<<<<< HEAD
+
 
 		for (int i = 1; i == connectionArray.size(); i++) {
-=======
+
 		
-		for (int i = 1; i <= connectionArray.size(); i++) {
->>>>>>> origin/master
+		for (int j = 1; j <= connectionArray.size(); j++) {
+
 			// if (connectionArray[i].) {
 
 			// }
 		}
 
 	}
+}
 }
