@@ -5,6 +5,7 @@ public class Train {
 	
 	 public Color trainColor;
 	 public int amountOfTrains;
+	 public int test;
 	
 	Train(Color _trainColor){
 		this.trainColor = _trainColor;
@@ -19,19 +20,4 @@ public class Train {
 
 
 
-public class Train {
-	
-	private Color trainColor;
-	private int amountOfTrains;
-	
-	Train(Color _trainColor){
-		this.trainColor = _trainColor;
-		amountOfTrains = 45;
-	}
-
-	
-	public void decrease(int amount){
-		amountOfTrains -= amount;
-	}
-}
 

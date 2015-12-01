@@ -19,10 +19,6 @@ public class Players {
 		
 	}
 	
-	Act()
-	{
-		
-	}
 
 	public int getNumOfTrains() {
 		return numOfTrains;
