@@ -1,4 +1,3 @@
-import java.util.Scanner;
 
 public class Turn {
 	String[] playerArray;
@@ -7,15 +6,11 @@ public class Turn {
 	int p3 = 5;
 	int p4 = 5;
 	
-	static Scanner sc;
-	int tmp;
-	Players playerInput;
 	
-
-	public Turn(String[] _players, int tmp, Players playerInput) {
+	public Turn(String[] _players) {
 		this.playerArray = _players;
-		this.tmp = tmp;
-		this.playerInput= playerInput;
+		
+		
 	}
 	
 	
@@ -61,34 +56,37 @@ public class Turn {
 	// the switch case model to run through each players turn.
 	//takes a players object as an input
 	
-	void normalTurn(Players p) {
+	void normalTurn(Players p, int input) {
 
 		//checks if the players amount of trains are above 2
-		// while (p1 > 2 && p2 > 2 && p3 > 2 && p4 > 2) {
+		//if(p.amountOfTrains > 2){
 
-				switch (tmp) {
+				switch (input) {
 
 				case 1:
 					System.out.println("choose to draw cards");
+					//draw 2 cards, either from open stack or the stack
 
 					break;
 				case 2:
-					System.out.println("player 3");
+					System.out.println("Choose to draw an extra mission");
+					// 
 
 					break;
 				case 3:
-					System.out.println("player 4");
+					System.out.println("choose to play trains");
 
 					break;
 
 				}
+		//}
 
 			
-		//}
+		
 
 		// last turn
 
-		for (int j = 0; j < 4; j++) {
+		
 
 			switch (playerArray[j]) {
 
@@ -111,7 +109,7 @@ public class Turn {
 
 			}
 
-		}
+		
 	}
 
 }

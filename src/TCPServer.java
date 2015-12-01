@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -6,58 +7,39 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class TCPServer {
-
-	// scanner is only for testing
-	static Scanner sc;
-	static int testInt;
-	static boolean gameHasBeenInitiated;
+public class TCPServer implements Runnable {
+	
+	
 
 	public static ArrayList<Socket> connectionArray = new ArrayList<Socket>();
-	public static int gameState = 0;
-
-	static String[] players = new String[] { "player 1", "player 2", "player 3", "player 4" };
 	
+	public static int gameState = 0;
+	public static boolean gameHasBeenInitiated = false;
 
 	public static void main(String[] args) throws IOException {
-
-		sc = new Scanner(System.in);
 		
-
+		TCPServer tcpServer = new TCPServer();
+		
+		Thread threadOne = new Thread(tcpServer);
+		Thread threadTwo = new Thread(tcpServer);
+		Thread threadThree = new Thread(tcpServer);
+		Thread threadFour = new Thread(tcpServer);
+		Thread threadFive = new Thread(tcpServer);
+		threadOne.start();
+		threadTwo.start();
+		threadThree.start();
+		threadFour.start();
+		threadFive.start();
+		
+		
 		ServerSocket socket = new ServerSocket(2222);
-
-		
-			
-			
-			
-			
-			
-	
 
 		try {
 			while (true) {
 
 				Socket sock = socket.accept();
 				System.out.println("Server is running and a new input arrived");
-
-
-				/*
-				 * FOR CONNECTION CHECK, LATER for (int i = 1; i ==
-				 * connectionArray.size(); i++) { if
-				 * (connectionArray.get(i).getInetAddress() ==
-				 * sock.getInetAddress()) { connectionArray.remove(i);
-				 * 
-				 * //connectionArray.add(sock); System.out.println(
-				 * "Removed a player" + sock); } }
-				 */
-
-				connectionArray.add(sock);
-				System.out.println("Added a player" + sock);
-
-				System.out.println("Client connected from: " + sock.getInetAddress());
-
 
 				if (!connectionArray.contains(sock)) {
 					connectionArray.add(sock);
@@ -74,15 +56,11 @@ public class TCPServer {
 					}
 				}
 				
-
 				InputStreamReader isr = new InputStreamReader(sock.getInputStream());
 
 				BufferedReader inFromClient = new BufferedReader(isr);
 
 				String msg = inFromClient.readLine();
-
-
-				Train t = new Gson().fromJson(msg, Train.class);
 
 				// CREATE ALL THE OTHER CLASS AS OBJECTS HERE, BUT MAKE SURE THAT THERE IS ONLY 1 PER PLAYER
 				// also make sure that InFromCleint.readLine() fits whatever object is going to be changed
@@ -92,12 +70,8 @@ public class TCPServer {
 				 
 				
 
-
+				//What is being sent back to the client
 				if (msg != null) {
-
-					PrintStream ps = new PrintStream(sock.getOutputStream());
-					ps.println("msg received"); // Will be sent to the client
-
 					
 				/*	PrintStream ps = new PrintStream(sock.getOutputStream(), true);
 					for (int i = 0; i <= connectionArray.size(); i++) {
@@ -111,15 +85,12 @@ public class TCPServer {
 					*/
 
 					 //ps.println("msg received"); // Will be sent to the client
-
 				}
 
-				if (connectionArray.size() == 4) {
+				if (connectionArray.size() == 4 && !gameHasBeenInitiated) {
 					gameState = 1; // 1 for initiate game
+
 					initiateGame();
-
-
-					System.out.println("Game is ready");
 
 					gameHasBeenInitiated = true;
 					
@@ -152,17 +123,8 @@ public class TCPServer {
 					ps.println("Game has begun!" + "\n");
 					}
 						
-
 				}
 				
-
-				/*
-				 * if (!sock.isConnected()) { System.out.println(
-				 * " A player is disc"); for (int i = 1; i ==
-				 * connectionArray.size(); i++) { if (connectionArray.get(i) ==
-				 * sock) { connectionArray.remove(i); System.out.println(
-				 * "Removed player:" + sock); } } }
-				 */
 
 				System.out.println(msg);
 				
@@ -170,42 +132,30 @@ public class TCPServer {
 				
 				System.out.println(tcs);
 
-
-				System.out.println(t.amountOfTrains);
-
 				//System.out.println(train.amountOfTrains);
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			socket.close();
-
-		}
-
 		}	
-	
+	}
 	
 	public void run() {
 		System.out.println(Thread.currentThread().getName());
 		
 		
-
 	}
 
+	
+
 	public static void initiateGame() {
-
-
-		for (int i = 1; i == connectionArray.size(); i++) {
-
 		
-		for (int j = 1; j <= connectionArray.size(); j++) {
-
+		for (int i = 1; i <= connectionArray.size(); i++) {
 			// if (connectionArray[i].) {
 
 			// }
 		}
-
 	}
 }
-}
+
