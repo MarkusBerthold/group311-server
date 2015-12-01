@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Turn {
-	String[] players;
+	String[] playerArray;
 	int p1 = 5;
 	int p2 = 5;
 	int p3 = 5;
@@ -9,92 +9,88 @@ public class Turn {
 	
 	static Scanner sc;
 	int tmp;
+	Players playerInput;
 	
 
-	public Turn(String[] _players, int tmp) {
-		this.players = _players;
+	public Turn(String[] _players, int tmp, Players playerInput) {
+		this.playerArray = _players;
 		this.tmp = tmp;
+		this.playerInput= playerInput;
 	}
 	
 	
+//The initial turn function deals the mission cards to each player and 4 train cards
+	// change constructor to take 4 players objects
+	void initialTurn(Players p1, Players p2, Players p3, Players p4) {
+		
+		for(int i= 0; i<4; i++){
+		
+		
+			switch (i) {
 
-	void initialTurn() {
-		if (tmp < 4) {
-			switch (tmp) {
-
-			case 1:
+			case 0:
 				System.out.println("player 1");
-
+				//addTrainsToHand(p1)
+				//addMissionsToHand(p1)
 				
+				break;
+			case 1:
+				System.out.println("player 2");
+				//addTrainsToHand(p2)
+				//addMissionsToHand(p2)
 
 				break;
 			case 2:
-				System.out.println("player 2");
+				System.out.println("player 3");
+				//addTrainsToHand(p3)
+				//addMissionsToHand(p3)
 
-				tmp = -1;
-				this.initialTurn();
-				
 				break;
 			case 3:
-				System.out.println("player 3");
-
-				tmp = -1;
-
-				this.initialTurn();
-
-				break;
-			case 4:
 				System.out.println("player 4");
-
-				tmp = -1;
-
-				this.initialTurn();
-
+				//addTrainsToHand(p4)
+				//addMissionsToHand(p4)
+				
+				
 				break;
 
 			}
-		} else if (tmp >= 4) {
-			this.normalTurn();
-		}
+		} 
 	}
 
-	// the switch case model to run through each players turn. might replace the
-	// integer with a string
-	void normalTurn() {
+	// the switch case model to run through each players turn.
+	//takes a players object as an input
+	
+	void normalTurn(Players p) {
 
-		while (p1 > 2 && p2 > 2 && p3 > 2 && p4 > 2) {
+		//checks if the players amount of trains are above 2
+		// while (p1 > 2 && p2 > 2 && p3 > 2 && p4 > 2) {
 
-			for (int j = 0; j < 4; j++) {
+				switch (tmp) {
 
-				switch (players[j]) {
-
-				case "player 1":
-					System.out.println("player 1");
-
-					break;
-				case "player 2":
-					System.out.println("player 2");
+				case 1:
+					System.out.println("choose to draw cards");
 
 					break;
-				case "player 3":
+				case 2:
 					System.out.println("player 3");
 
 					break;
-				case "player 4":
+				case 3:
 					System.out.println("player 4");
 
 					break;
 
 				}
 
-			}
-		}
+			
+		//}
 
 		// last turn
 
 		for (int j = 0; j < 4; j++) {
 
-			switch (players[j]) {
+			switch (playerArray[j]) {
 
 			case "player 1":
 				System.out.println("player 1 last turn");
