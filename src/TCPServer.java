@@ -23,6 +23,7 @@ public class TCPServer implements Runnable {
 	public static boolean gameHasBeenInitiated = false;
 	
 	static Train train;
+	static Town town;
 	//static Stack stack;
 	//static TrainCardStack trainCardStack;
 	//static DisplayedTrainStack displayedTrainStack;
@@ -112,6 +113,7 @@ public class TCPServer implements Runnable {
 					String msg10 = inFromClient.readLine(); */
 					
 					Train train = new Gson().fromJson(msg1, Train.class);
+				//	Town town = new Gson().fromJson(msg2, Town.class);
 					Card mc = new Gson().fromJson(msg2, Card.class);
 				//	ArrayList<Integer> arrayTest = new Gson().fromJson(msg2, ArrayList.class);
 					
@@ -138,13 +140,14 @@ public class TCPServer implements Runnable {
 				//	PlayerPiece playerPiece = new Gson().fromJson(messages[2], PlayerPiece.class);
 					
 					
-					System.out.println(train.amountOfTrains);
+					System.out.println(train);
 				//	System.out.println(handTrainStack.amount);
 				//	System.out.println(displayedTrainStack.xPos);
 				//	System.out.println(handMissionStack.yPos);
 				//	System.out.println(connection);
 				//	System.out.println(arrayTest);
 					System.out.println(mc.xPos);
+				//	System.out.println(town.getName());
 					System.out.println(playerPiece.getTotalPoints());
 					
 					

@@ -82,7 +82,7 @@ public class Players {
 	
 	
 	
-	public void removeTrainCard(CustomColor color, int num)
+	public void removeTrainCard(Color color, int num)
 	{
 		boolean go = false;	//to check that there's enough desired colors in hand
 		int count = 0;
