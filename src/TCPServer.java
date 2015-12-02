@@ -37,9 +37,13 @@ public class TCPServer implements Runnable {
 	
 	static ArrayList<Integer> arrayTest;
 	static Card mc;
-	static String[] msg;
+	static String[] msg ,msg2, msg3, msg4;
 	
 	static Connection[] cn;
+	static Card[] tCards;
+	static Card[] dtCards;
+	
+	static PlayerPiece[] pPieces;
 
 	public static void main(String[] args) throws IOException {
 
@@ -98,6 +102,10 @@ public class TCPServer implements Runnable {
 				//System.out.println(msg);
 				//System.out.println(train.amountOfTrains);
 				msg = new String[100];
+				msg2 = new String[87];
+				msg3 = new String[5];
+				msg4 = new String[4];
+				
 				if(inFromClient.readLine().contains("1")) {
 					/*String messages[] = new String[10];
 					int amountOfJsons = 10;
@@ -107,7 +115,25 @@ public class TCPServer implements Runnable {
 					for (int i=0; i<100; i++) {
 						String temp = inFromClient.readLine();	
 						msg[i]=temp;
+					//	System.out.println(msg[i]);
 					}
+					for (int i=0; i<87; i++)
+					{
+						String temp = inFromClient.readLine();
+						msg2[i]=temp;
+					//	System.out.println(msg2[i]);
+					}
+					for (int i = 0; i < 5; i++) {
+						String temp = inFromClient.readLine();
+						msg3[i] = temp;
+					}
+					for (int i=0; i<4; i++)
+					{
+						String temp = inFromClient.readLine();
+						msg4[i] = temp;
+					}
+					
+					
 				//	String msg1 = inFromClient.readLine(); 
 				//	String msg2 = inFromClient.readLine(); 
 				//	String msg3 = inFromClient.readLine();
@@ -128,7 +154,31 @@ public class TCPServer implements Runnable {
 					{
 						Connection temp = new Gson().fromJson(msg[i], Connection.class);
 						cn[i] = temp;
+				//		System.out.println(cn[i]);
+									
 					}
+					tCards = new TrainCard[87];
+					for (int i=0; i<87; i++)
+					{
+						TrainCard temp = new Gson().fromJson(msg2[i], TrainCard.class);
+						tCards[i] = temp;
+					}
+					
+					
+					dtCards = new TrainCard[5];
+					for (int i=0; i<5; i++)
+					{
+						TrainCard temp = new Gson().fromJson(msg3[i], TrainCard.class);
+						dtCards[i] = temp;
+					}
+					
+					pPieces = new PlayerPiece[4];
+					for (int i=0; i<4; i++)
+					{
+						PlayerPiece temp = new Gson().fromJson(msg[i], PlayerPiece.class);
+						pPieces[i] = temp;
+					}
+					
 					
 					
 				//	Connection connection = new Gson().fromJson(msg2, Connection.class);
@@ -159,7 +209,19 @@ public class TCPServer implements Runnable {
 				//	System.out.println(handTrainStack.amount);
 				//	System.out.println(displayedTrainStack.xPos);
 				//	System.out.println(handMissionStack.yPos);
-					System.out.println(cn[1].getTownA().getName());
+					System.out.println(cn[9].getTownA().getName());
+					System.out.println(cn[89].getTownA().getName());
+					System.out.println(tCards[5].getColor().getColorName());
+					System.out.println(tCards[6].getColor().getColorName());
+					System.out.println(tCards[7].getColor().getColorName());
+					System.out.println(tCards[8].getColor().getColorName());
+					System.out.println(dtCards[0].getColor().getColorName());
+					System.out.println(dtCards[1].getColor().getColorName());
+					System.out.println(dtCards[2].getColor().getColorName());
+					System.out.println(dtCards[3].getColor().getColorName());
+					System.out.println(dtCards[4].getColor().getColorName());
+					System.out.println(pPieces[2].getTotalPoints());
+				
 				//	System.out.println(arrayTest);
 				//	System.out.println(mc.xPos);
 				//	System.out.println(town.getName());
