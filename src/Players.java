@@ -9,15 +9,18 @@ public class Players {
 	public int numOfTrains;
 	private ArrayList<MissionCard> handOfMissions = new ArrayList<MissionCard>();
 	private ArrayList<TrainCard> handOfTrainCards = new ArrayList<TrainCard>();
+	private int r,g,b;
 	
 	
-	
-	public Players(Socket sock, String name) {
+	public Players(Socket sock, String name, int r, int g, int b) {
 		
 		this.sock = sock;
 		this.name = name;
-		
+		this.r = r;
+		this.g = g;
+		this.b = b;
 	}
+	
 	
 
 	public int getNumOfTrains() {
@@ -44,6 +47,36 @@ public class Players {
 		this.handOfTrainCards = handOfTrainCards;
 	}
 	
+	//Add one or two train cards to player hand
+	public void AddTrainCard(TrainCard TC)
+	{
+		handOfTrainCards.add(TC);
+	}
+	
+	public void AddTrainCard(TrainCard TC1, TrainCard TC2)
+	{
+		handOfTrainCards.add(TC1);
+		handOfTrainCards.add(TC2);
+	}
+	
+	// add 1-3 mission cards
+	public void AddMissionCard(MissionCard MC)
+	{
+		handOfMissions.add(MC);
+	}
+	
+	public void AddMissionCard(MissionCard MC1, MissionCard MC2)
+	{
+		handOfMissions.add(MC1);
+		handOfMissions.add(MC2);
+	}
+	
+	public void AddMissionCard(MissionCard MC1, MissionCard MC2, MissionCard MC3)
+	{
+		handOfMissions.add(MC1);
+		handOfMissions.add(MC2);
+		handOfMissions.add(MC3);
+	}
 	
 	
 	//
