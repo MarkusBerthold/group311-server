@@ -7,19 +7,20 @@ public class Players {
 	
 	public Socket sock;
 	public int playerNum;
-	CustomColor plColor;
 	public int numOfTrains = 45;
 	private ArrayList<MissionCard> handOfMissions = new ArrayList<MissionCard>();
 	private ArrayList<TrainCard> handOfTrainCards = new ArrayList<TrainCard>();
+	private int r,g,b;
 	boolean canPlay = false;
 	
 	
-	public Players(Socket sock, int playerNum, CustomColor plColor) {
+	public Players(Socket sock, int playerNum, int r, int g, int b) {
 		
 		this.sock = sock;
 		this.playerNum = playerNum;
-		this.plColor = plColor;
-	
+		this.r = r;
+		this.g = g;
+		this.b = b;
 	}
 	
 	
@@ -114,7 +115,6 @@ public class Players {
 					count++;
 				}
 			}
-			numOfTrains -= num;
 		}
 		
 	}
