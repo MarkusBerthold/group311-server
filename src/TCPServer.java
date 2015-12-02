@@ -1,15 +1,18 @@
 import java.io.BufferedReader;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.lang.reflect.Type;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.Sys;
+import org.newdawn.slick.SlickException;
 
 
 public class TCPServer implements Runnable {
@@ -27,9 +30,11 @@ public class TCPServer implements Runnable {
 	//static MissionCardStack missionCardStack;
 	//static TrainTrashStack trainTrashStack;
 	//static MissionTrashStack missionTrashStack;
-	static ArrayList<Connection> connection;
+	static Connection connection;
 	static PlayerPiece playerPiece;
 	
+	static ArrayList<Integer> arrayTest;
+	static Card mc;
 
 	public static void main(String[] args) throws IOException {
 
@@ -45,6 +50,8 @@ public class TCPServer implements Runnable {
 		threadThree.start();
 		threadFour.start();
 		threadFive.start();
+		
+		
 		
 
 		ServerSocket socket = new ServerSocket(2222);
@@ -93,8 +100,8 @@ public class TCPServer implements Runnable {
 						messages[i] = inFromClient.readLine(); 
 					} */
 					
-					String msg1 = inFromClient.readLine();
-					String msg2 = inFromClient.readLine();
+					String msg1 = inFromClient.readLine(); 
+					String msg2 = inFromClient.readLine(); 
 					String msg3 = inFromClient.readLine();
 				/*	String msg4 = inFromClient.readLine();
 					String msg5 = inFromClient.readLine();
@@ -105,8 +112,17 @@ public class TCPServer implements Runnable {
 					String msg10 = inFromClient.readLine(); */
 					
 					Train train = new Gson().fromJson(msg1, Train.class);
-					Connection connection = new Gson().fromJson(msg2, Connection.class);
+					Card mc = new Gson().fromJson(msg2, Card.class);
+				//	ArrayList<Integer> arrayTest = new Gson().fromJson(msg2, ArrayList.class);
+					
+					//Connection connection = new Gson().fromJson(msg2, Connection.class);
+					//Connection[] connection = new Gson().fromJson(msg2, Connection[].class);
+					
+				//	Type collectionType = new TypeToken<List<Connection>>(){}.getType();
+				//	List<Connection> connection = (List<Connection>) new Gson().fromJson( msg2 , collectionType);
+					
 					PlayerPiece playerPiece = new Gson().fromJson(msg3, PlayerPiece.class);
+					
 					
 					
 					
@@ -126,7 +142,9 @@ public class TCPServer implements Runnable {
 				//	System.out.println(handTrainStack.amount);
 				//	System.out.println(displayedTrainStack.xPos);
 				//	System.out.println(handMissionStack.yPos);
-					System.out.println(connection);
+				//	System.out.println(connection);
+				//	System.out.println(arrayTest);
+					System.out.println(mc.xPos);
 					System.out.println(playerPiece.getTotalPoints());
 					
 					
@@ -170,16 +188,16 @@ public class TCPServer implements Runnable {
 
 					gameHasBeenInitiated = true;
 
-					Players p1 = new Players(connectionArray.get(0), "player1");
+		/*			Players p1 = new Players(connectionArray.get(0), "player1");
 					Players p3 = new Players(connectionArray.get(2), "player3");
 					Players p4 = new Players(connectionArray.get(3), "player4");
-					Players p2 = new Players(connectionArray.get(1), "player2");
+					Players p2 = new Players(connectionArray.get(1), "player2"); 
 					
 					String playerJson1 = new Gson().toJson(p1);
 					//String t = new Gson().toJson(ta);
 					String playerJson2 = new Gson().toJson(p2);
 					String playerJson3 = new Gson().toJson(p3);
-					String playerJson4 = new Gson().toJson(p4);
+					String playerJson4 = new Gson().toJson(p4); */
 
 					for (int i = 0; i < connectionArray.size(); i++) {
 						PrintStream ps = new PrintStream(connectionArray.get(i).getOutputStream(), true);
