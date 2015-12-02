@@ -10,6 +10,7 @@ public class Players {
 	private ArrayList<MissionCard> handOfMissions = new ArrayList<MissionCard>();
 	private ArrayList<TrainCard> handOfTrainCards = new ArrayList<TrainCard>();
 	private int r,g,b;
+	boolean canPlay = false;
 	
 	
 	public Players(Socket sock, String name, int r, int g, int b) {
