@@ -1,4 +1,5 @@
 
+
 import java.net.*;
 import java.util.ArrayList;
 
@@ -6,7 +7,7 @@ public class Players {
 	
 	public Socket sock;
 	public int playerNum;
-	public int numOfTrains;
+	public int numOfTrains = 45;
 	private ArrayList<MissionCard> handOfMissions = new ArrayList<MissionCard>();
 	private ArrayList<TrainCard> handOfTrainCards = new ArrayList<TrainCard>();
 	private int r,g,b;
@@ -80,10 +81,41 @@ public class Players {
 	}
 	
 	
-	//
 	
-	
-	
-	
-
+	public void removeTrainCard(Color color, int num)
+	{
+		boolean go = false;	//to check that there's enough desired colors in hand
+		int count = 0;
+		for(int i = 0; i<handOfTrainCards.size(); i++ )
+		{
+			if(handOfTrainCards.get(i).getColor() == color)
+			{
+				count++;
+				if(count>=num)
+				{
+					go = true;
+				}
+				
+			}
+		}
+		if(!go)
+		{
+			System.out.println("Not enough colors to perform this action!");
+		}
+		
+		if(go)
+		{
+			int tmpSize = handOfTrainCards.size();
+			count = 0;
+			for(int i = 0; i<tmpSize; i++ )
+			{
+				if(handOfTrainCards.get(i).getColor() == color && count < num)
+				{
+					handOfTrainCards.remove(i);
+					count++;
+				}
+			}
+		}
+		
+	}
 }
