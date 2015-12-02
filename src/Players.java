@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Players {
 	
 	public Socket sock;
-	public String name;
+	public int playerNum;
 	public int numOfTrains;
 	private ArrayList<MissionCard> handOfMissions = new ArrayList<MissionCard>();
 	private ArrayList<TrainCard> handOfTrainCards = new ArrayList<TrainCard>();
@@ -13,10 +13,10 @@ public class Players {
 	boolean canPlay = false;
 	
 	
-	public Players(Socket sock, String name, int r, int g, int b) {
+	public Players(Socket sock, int playerNum, int r, int g, int b) {
 		
 		this.sock = sock;
-		this.name = name;
+		this.playerNum = playerNum;
 		this.r = r;
 		this.g = g;
 		this.b = b;
