@@ -138,7 +138,7 @@ public class TCPServer implements Runnable {
 				//	PlayerPiece playerPiece = new Gson().fromJson(messages[2], PlayerPiece.class);
 					
 					
-					System.out.println(train.amountOfTrains);
+					System.out.println(train);
 				//	System.out.println(handTrainStack.amount);
 				//	System.out.println(displayedTrainStack.xPos);
 				//	System.out.println(handMissionStack.yPos);

@@ -8,9 +8,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-//import com.sun.org.apache.xerces.internal.xinclude.XPointerSchema;
+import com.sun.org.apache.xerces.internal.xinclude.XPointerSchema;
 
-//import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
+import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
 
 public class SummaryCard extends Card {
 

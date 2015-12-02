@@ -13,9 +13,9 @@ public class TrainCard extends Card {
 		yPos = 0;
 	}
 
-	public TrainCard(Color color) {
+	public TrainCard(CustomColor color) {
 
-		this.color =color;
+		this.color = color;
 
 		// this.frontImage = trainImage;
 	}
@@ -33,12 +33,13 @@ public class TrainCard extends Card {
 		 */
 	}
 	@Override
-	public void setColor(Color color) {
+	public void setColor(CustomColor color) {
 		// TODO Auto-generated method stub
 		super.setColor(color);
 	}
 	@Override
-	public Color getColor() {
+	public CustomColor getColor() {
+
 		// TODO Auto-generated method stub
 		return super.getColor();
 	}

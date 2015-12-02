@@ -1,13 +1,11 @@
 
-import java.awt.Color;
 
 public class Train {
 	
-	 public Color trainColor;
-	 public int amountOfTrains;
-	 public int test;
+	private CustomColor trainColor;
+	private int amountOfTrains;
 	
-	Train(Color _trainColor){
+	Train(CustomColor _trainColor){
 		this.trainColor = _trainColor;
 		amountOfTrains = 45;
 	}
@@ -17,7 +15,3 @@ public class Train {
 		amountOfTrains -= amount;
 	}
 }
-
-
-
-
