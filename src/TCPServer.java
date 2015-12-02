@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.lwjgl.Sys;
 
 
 public class TCPServer implements Runnable {
@@ -16,7 +19,17 @@ public class TCPServer implements Runnable {
 	public static int gameState = 0;
 	public static boolean gameHasBeenInitiated = false;
 	
-	static Train ta;
+	static Train train;
+	//static Stack stack;
+	//static TrainCardStack trainCardStack;
+	//static DisplayedTrainStack displayedTrainStack;
+	//static HandMissionStack handMissionStack;
+	//static MissionCardStack missionCardStack;
+	//static TrainTrashStack trainTrashStack;
+	//static MissionTrashStack missionTrashStack;
+	static ArrayList<Connection> connection;
+	static PlayerPiece playerPiece;
+	
 
 	public static void main(String[] args) throws IOException {
 
@@ -33,7 +46,6 @@ public class TCPServer implements Runnable {
 		threadFour.start();
 		threadFive.start();
 		
-		ta = new Train(null);
 
 		ServerSocket socket = new ServerSocket(2222);
 
@@ -75,16 +87,51 @@ public class TCPServer implements Runnable {
 				//System.out.println(train.amountOfTrains);
 				
 				if(inFromClient.readLine().contains("1")) {
+					/*String messages[] = new String[10];
+					int amountOfJsons = 10;
+					for (int i = 0; i < amountOfJsons; i++) {
+						messages[i] = inFromClient.readLine(); 
+					} */
+					
+					String msg1 = inFromClient.readLine();
+					String msg2 = inFromClient.readLine();
 					String msg3 = inFromClient.readLine();
-					Train train = new Gson().fromJson(msg3, Train.class);
+				/*	String msg4 = inFromClient.readLine();
+					String msg5 = inFromClient.readLine();
+					String msg6 = inFromClient.readLine();
+					String msg7 = inFromClient.readLine();
+					String msg8 = inFromClient.readLine();
+					String msg9 = inFromClient.readLine();
+					String msg10 = inFromClient.readLine(); */
+					
+					Train train = new Gson().fromJson(msg1, Train.class);
+					Connection connection = new Gson().fromJson(msg2, Connection.class);
+					PlayerPiece playerPiece = new Gson().fromJson(msg3, PlayerPiece.class);
+					
+					
+					
+				//	Train train = new Gson().fromJson(messages[0], Train.class);
+				//	HandTrainStack handTrainStack = new Gson().fromJson(messages[1], HandTrainStack.class);
+				//	TrainCardStack trainCardStack = new Gson().fromJson(messages[2], TrainCardStack.class);
+				//	DisplayedTrainStack displayedTrainStack = new Gson().fromJson(messages[3], DisplayedTrainStack.class);
+				//	HandMissionStack handMissionStack = new Gson().fromJson(messages[4], HandMissionStack.class);
+				//	MissionCardStack missionCardStack = new Gson().fromJson(messages[5], MissionCardStack.class);
+				//	TrainTrashStack trainTrashStack = new Gson().fromJson(messages[6], TrainTrashStack.class);
+				//	MissionTrashStack missionTrashStack = new Gson().fromJson(messages[7], MissionTrashStack.class);
+					//Connection connection = new Gson().fromJson(messages[1], Connection.class);
+				//	PlayerPiece playerPiece = new Gson().fromJson(messages[2], PlayerPiece.class);
+					
+					
 					System.out.println(train.amountOfTrains);
-				}
-				if (inFromClient.readLine().contains("2")) {
-					System.out.println("state2");
+				//	System.out.println(handTrainStack.amount);
+				//	System.out.println(displayedTrainStack.xPos);
+				//	System.out.println(handMissionStack.yPos);
+					System.out.println(connection);
+					System.out.println(playerPiece.getTotalPoints());
 					
 					
-					
-					
+				} else {
+					System.out.println("Activator was not 1");
 				}
 
 				// CREATE ALL THE OTHER CLASS AS OBJECTS HERE, BUT MAKE SURE
@@ -123,23 +170,23 @@ public class TCPServer implements Runnable {
 
 					gameHasBeenInitiated = true;
 
-				//	Players p1 = new Players(connectionArray.get(0), "player1");
-				//	Players p3 = new Players(connectionArray.get(2), "player3");
-				//	Players p4 = new Players(connectionArray.get(3), "player4");
-				//	Players p2 = new Players(connectionArray.get(1), "player2");
+					Players p1 = new Players(connectionArray.get(0), "player1");
+					Players p3 = new Players(connectionArray.get(2), "player3");
+					Players p4 = new Players(connectionArray.get(3), "player4");
+					Players p2 = new Players(connectionArray.get(1), "player2");
 					
-					//String playerJson1 = new Gson().toJson(p1);
-					String t = new Gson().toJson(ta);
-	/*				String playerJson2 = new Gson().toJson(p2);
+					String playerJson1 = new Gson().toJson(p1);
+					//String t = new Gson().toJson(ta);
+					String playerJson2 = new Gson().toJson(p2);
 					String playerJson3 = new Gson().toJson(p3);
-					String playerJson4 = new Gson().toJson(p4); */
+					String playerJson4 = new Gson().toJson(p4);
 
 					for (int i = 0; i < connectionArray.size(); i++) {
 						PrintStream ps = new PrintStream(connectionArray.get(i).getOutputStream(), true);
 
 						
 
-						ps.println(t + "\n");
+						//ps.println(t + "\n");
 /*						ps.println(playerJson2 + "\n");
 						ps.println(playerJson3 + "\n");
 						ps.println(playerJson4 + "\n");
