@@ -27,6 +27,22 @@ public class Players {
 
 	
 	
+	public Socket getSock() {
+		return sock;
+	}
+
+
+
+
+
+	public void setSock(Socket sock) {
+		this.sock = sock;
+	}
+
+
+
+
+
 	public int getNumOfTrains() {
 		return numOfTrains;
 	}
@@ -93,11 +109,19 @@ public class Players {
 		handOfTrainCards.add(TC2);
 	}
 	
-//	// add 1-3 mission cards
-//	public void AddMissionCard(Card MC)
-//	{
-//		handOfMissions.add(MC);
-//	}
+	public void AddTrainCard(Card TC1, Card TC2, Card TC3, Card TC4)
+	{
+		handOfTrainCards.add(TC1);
+		handOfTrainCards.add(TC2);
+		handOfTrainCards.add(TC3);
+		handOfTrainCards.add(TC4);
+	}
+	
+	 //add 1-3 mission cards
+	public void AddMissionCard(Card MC)
+	{
+		handOfMissions.add(MC);
+	}
 	
 	public void AddMissionCard(Card MC1, Card MC2)
 	{
@@ -180,6 +204,8 @@ public int numOfColor(String color)
 }
 
 }
+
+
 
 //Board b;
 //try {
