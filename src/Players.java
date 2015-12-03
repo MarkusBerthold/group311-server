@@ -165,3 +165,38 @@ public class Players {
 	}
 	
 }
+//Board b;
+//try {
+//	 b = new Board(1);
+//
+//Players player1 = new Players(1,b.colors[0]);
+//
+//
+//player1.AddTrainCard(b.trainCards[1], b.trainCards[2]);
+//player1.AddTrainCard(b.trainCards[15], b.trainCards[30]);
+//player1.AddTrainCard(b.trainCards[3], b.trainCards[18]);
+//
+//
+//player1.getHandOfTrainCards();
+//for(int i = 0; i<player1.handOfTrainCards.size(); i++)
+//{
+//System.out.println(player1.handOfTrainCards.get(i).getColor().getColorName());
+//}
+//
+//player1.removeTrainCard("blue", 3);
+//System.out.println(player1.getNumOfTrains());
+//player1.getHandOfTrainCards();
+//for(int i = 0; i<player1.handOfTrainCards.size(); i++)
+//{
+//System.out.println(player1.handOfTrainCards.get(i).getColor().getColorName());
+//}
+//
+//
+//
+//
+//
+//
+//} catch (SlickException e1) {
+//	// TODO Auto-generated catch block
+//	e1.printStackTrace();
+//}
