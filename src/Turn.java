@@ -10,23 +10,19 @@ public class Turn {
 	int finalTurnCounter;
 
 	String currentPlayer;
-	Players[] pArray;
+	
 
-	public ArrayList<Socket> connectionArray;
+	
 
 	InputStreamReader isr;
 	BufferedReader inFromClient;
 
-	public Turn(ArrayList<Socket> connectionArray, Players[] playerArray) {
-
-		this.connectionArray = connectionArray;
-		this.pArray = playerArray;
-	}
+	
 
 	// on the initial turn each player is dealt 4 train cards and 2 mission
 	// cards
 
-	void initialTurn() {
+	void initialTurn(Players[] pArray) {
 
 		// to do this we run a for loop to go through a switch case to deal the
 		// cards to each player
@@ -101,7 +97,7 @@ public class Turn {
 	// the switch case model to run through each players turn.
 		// takes a players object as an input
 
-	void normalTurn(Players p) throws IOException {
+	void normalTurn(Players[] pArray) throws IOException {
 
 		int inputNum = 0;
 
