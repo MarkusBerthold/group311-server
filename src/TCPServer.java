@@ -264,13 +264,17 @@ public class TCPServer implements Runnable {
 					
 				} else if(inFromClient.readLine().contains("state1")) { 
 					// listen to whatever
+					System.out.println("Changed to state1");
 					turn.normalTurn(pArray, turn.endTurn());
 				} else if(inFromClient.readLine().contains("state2")) {
 					// listen to whatever
+					System.out.println("Changed to state2");
 					turn.normalTurn(pArray, turn.endTurn());
 				} else if(inFromClient.readLine().contains("state3")) {
+					
 					// listen to whatever
 					turn.normalTurn(pArray, turn.endTurn());
+					System.out.println("Changed to state3");
 				} else {
 					System.out.println("Activator was not 1 nor 2 nor states");
 				}

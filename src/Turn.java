@@ -96,7 +96,7 @@ public class Turn {
 		// these determine what kind of action the player will perform and apply
 		// the action to the selected player
 		case 1:
-
+			System.out.println("Player 1's turn");
 			ps = new PrintStream(pArray[0].sock.getOutputStream(), true);
 			ps.println("canAct");
 
@@ -106,7 +106,7 @@ public class Turn {
 		// same as above but for player 2
 
 		case 2:
-
+			System.out.println("Player 2's turn");
 			ps = new PrintStream(pArray[1].sock.getOutputStream(), true);
 			ps.println("canAct");
 
@@ -115,7 +115,7 @@ public class Turn {
 		// same for player 3
 
 		case 3:
-
+			System.out.println("Player 3's turn");
 			ps = new PrintStream(pArray[2].sock.getOutputStream(), true);
 			ps.println("canAct");
 
@@ -123,7 +123,7 @@ public class Turn {
 
 		// same for player 4
 		case 4:
-
+			System.out.println("Player 4's turn");
 			ps = new PrintStream(pArray[3].sock.getOutputStream(), true);
 			ps.println("canAct");
 
