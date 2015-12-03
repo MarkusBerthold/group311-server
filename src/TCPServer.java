@@ -209,7 +209,7 @@ public class TCPServer implements Runnable {
 				//	System.out.println(handTrainStack.amount);
 				//	System.out.println(displayedTrainStack.xPos);
 				//	System.out.println(handMissionStack.yPos);
-					System.out.println(cn[9].getTownA().getName());
+					System.out.println(cn[9].getIsTaken());
 					System.out.println(cn[89].getTownA().getName());
 					System.out.println(tCards[5].getColor().getColorName());
 					System.out.println(tCards[6].getColor().getColorName());
