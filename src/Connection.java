@@ -100,17 +100,17 @@ public class Connection {
 		return color;
 	}
 	public boolean getTakenByPlayer(Players player){
-		if(ownedBy == player.getNum())
+		if(ownedBy == player.playerNum)
 			return true;
 		
 		return false;
 	}
 	public void setTakenByPlayer(Players player, Graphics g){
-		ownedBy = player.getNum();
+		ownedBy = player.playerNum;
 		this.isTaken = true;
 		
 		//g.setColor(player.getCustomColor().getColor());
-		g.setColor(player.getCustomColor().getColor());
+		g.setColor(player.getPlColor().getColor()); //getCustomColor().getColor());
 	
 		
 		g.drawLine(townA.getxPos(), 768-townA.getyPos(), townB.getxPos(), 768-townB.getyPos());

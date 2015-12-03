@@ -325,7 +325,7 @@ public class TCPServer implements Runnable {
 					
 					Players p4 = new Players(4, board.colors[4]);
 					p4.setSock(connectionArray.get(3));
-					 
+					
 					
 					pArray = new Players[4];
 					pArray[0] = p1;
