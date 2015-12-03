@@ -48,7 +48,7 @@ public class TCPServer implements Runnable {
 	
 	static int[] isTaken;
 	
-	Turn turn = new Turn();
+	static Turn turn = new Turn();
 
 	public static void main(String[] args) throws IOException {
 
@@ -255,8 +255,11 @@ public class TCPServer implements Runnable {
 				//	System.out.println(playerPiece.getTotalPoints());
 					
 					
-				} else {
-					System.out.println("Activator was not 1");
+				} else if(inFromClient.readLine().contains("2")) {
+					turn.normalTurn(pArray, turn.EndTurn());
+				}
+				else {
+					System.out.println("Activator was not 1 nor 2");
 				}
 
 				// CREATE ALL THE OTHER CLASS AS OBJECTS HERE, BUT MAKE SURE
@@ -311,8 +314,12 @@ public class TCPServer implements Runnable {
 					
 					
 					
+					turn.normalTurn(pArray);
 					
-					String playerJson1 = new Gson().toJson(p1);
+					
+					
+					
+		/*			String playerJson1 = new Gson().toJson(p1);
 					//String t = new Gson().toJson(ta);
 					String playerJson2 = new Gson().toJson(p2);
 					String playerJson3 = new Gson().toJson(p3);
