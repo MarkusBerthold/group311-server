@@ -22,6 +22,7 @@ public class TCPServer implements Runnable {
 	public static int gameState = 0;
 	public static boolean gameHasBeenInitiated = false;
 	
+	static Board board;
 	static Train train;
 	static Town town;
 	//static Stack stack;
@@ -37,13 +38,15 @@ public class TCPServer implements Runnable {
 	
 	static ArrayList<Integer> arrayTest;
 	static Card mc;
-	static String[] msg ,msg2, msg3, msg4;
+	static String[] msg ,msg2, msg3, msg4, msg5;
 	
 	static Connection[] cn;
 	static Card[] tCards;
 	static Card[] dtCards;
 	
 	static PlayerPiece[] pPieces;
+	
+	static int[] isTaken;
 
 	public static void main(String[] args) throws IOException {
 
@@ -59,6 +62,13 @@ public class TCPServer implements Runnable {
 		threadThree.start();
 		threadFour.start();
 		threadFive.start();
+		
+		try {
+			board = new Board(4);
+		} catch (SlickException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		
 		
@@ -105,6 +115,7 @@ public class TCPServer implements Runnable {
 				msg2 = new String[87];
 				msg3 = new String[5];
 				msg4 = new String[4];
+				msg5 = new String[100];
 				
 				if(inFromClient.readLine().contains("1")) {
 					/*String messages[] = new String[10];
@@ -131,6 +142,13 @@ public class TCPServer implements Runnable {
 					{
 						String temp = inFromClient.readLine();
 						msg4[i] = temp;
+					}
+					for (int i = 0; i < 100; i++) {
+						String temp = inFromClient.readLine();
+						msg5[i] = temp;
+						System.out.println(msg5[i]);
+						//board.connections.get(i).setTakenByPlayer();
+						
 					}
 					
 					
@@ -175,9 +193,16 @@ public class TCPServer implements Runnable {
 					pPieces = new PlayerPiece[4];
 					for (int i=0; i<4; i++)
 					{
-						PlayerPiece temp = new Gson().fromJson(msg[i], PlayerPiece.class);
+						PlayerPiece temp = new Gson().fromJson(msg4[i], PlayerPiece.class);
 						pPieces[i] = temp;
 					}
+					
+				//	isTaken = new int[100];
+				/*	for (int i = 0; i < 100; i++) {
+						int temp = new Gson().fromJson(msg5[i], Integer.class);
+						isTaken[i]=temp;
+						
+					} */
 					
 					
 					
@@ -267,7 +292,6 @@ public class TCPServer implements Runnable {
 					initiateGame();
 
 					gameHasBeenInitiated = true;
-
 		/*			Players p1 = new Players(connectionArray.get(0), "player1");
 					Players p3 = new Players(connectionArray.get(2), "player3");
 					Players p4 = new Players(connectionArray.get(3), "player4");
