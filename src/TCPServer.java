@@ -16,7 +16,14 @@ import org.newdawn.slick.SlickException;
 
 
 public class TCPServer implements Runnable {
+	
+	Socket csocket;
+	
+	TCPServer(Socket csocket) {
+	      this.csocket = csocket;
+	   }
 
+	public static ServerSocket socket;
 	public static ArrayList<Socket> connectionArray = new ArrayList<Socket>();
 	public static boolean gameHasBeenInitiated = false;
 	
@@ -52,18 +59,18 @@ public class TCPServer implements Runnable {
 
 	public static void main(String[] args) throws IOException {
 
-		TCPServer tcpServer = new TCPServer();
+		//TCPServer tcpServer = new TCPServer();
 
-		Thread threadOne = new Thread(tcpServer);
+	/*	Thread threadOne = new Thread(tcpServer);
 		Thread threadTwo = new Thread(tcpServer);
 		Thread threadThree = new Thread(tcpServer);
-		Thread threadFour = new Thread(tcpServer);
-		Thread threadFive = new Thread(tcpServer);
-		threadOne.start();
+		Thread threadFour = new Thread(tcpServer); */
+		
+	/*	threadOne.start();
 		threadTwo.start();
 		threadThree.start();
-		threadFour.start();
-		threadFive.start();
+		threadFour.start(); */
+		
 		
 		try {
 			board = new Board(4);
@@ -77,23 +84,36 @@ public class TCPServer implements Runnable {
 		
 		
 		
+		socket = new ServerSocket(2222);
+		
+		while (true) { 
+		Socket sock = socket.accept();
+		new Thread(new TCPServer(sock)).start();
+		}
+		
 
-		ServerSocket socket = new ServerSocket(2222);
+		
+	}
 
+	public void run() {
+		System.out.println(Thread.currentThread().getName());
+		
+		
 		try {
+			
 			while (true) {
 
-				Socket sock = socket.accept();
+				
 				System.out.println("Server is running and a new input arrived");
 
-				if (!connectionArray.contains(sock)) {
-					connectionArray.add(sock);
-					System.out.println("Added a player: " + sock);
-					System.out.println("Client's InetAddress: " + sock.getInetAddress());
+				if (!connectionArray.contains(csocket)) {
+					connectionArray.add(csocket);
+					System.out.println("Added a player: " + csocket);
+					System.out.println("Client's InetAddress: " + csocket.getInetAddress());
 
-					PrintStream ps = new PrintStream(sock.getOutputStream(), true);
+					PrintStream ps = new PrintStream(csocket.getOutputStream(), true);
 					for (int i = 0; i < connectionArray.size(); i++) {
-						if (connectionArray.get(i) == sock) {
+						if (connectionArray.get(i) == csocket) {
 
 							//ps.println("You are player " + (i + 1) + "\n"); // Remember
 																			// to
@@ -107,7 +127,7 @@ public class TCPServer implements Runnable {
 					}
 				}
 
-				InputStreamReader isr = new InputStreamReader(sock.getInputStream());
+				InputStreamReader isr = new InputStreamReader(csocket.getInputStream());
 
 				BufferedReader inFromClient = new BufferedReader(isr);
 
@@ -116,21 +136,21 @@ public class TCPServer implements Runnable {
 				
 				//System.out.println(msg);
 				//System.out.println(train.amountOfTrains);
-				msg = new String[100];
+			/*	msg = new String[100];
 				msg2 = new String[87];
 				msg3 = new String[5];
 				msg4 = new String[4];
-				msg5 = new String[100];
+				msg5 = new String[100]; */
 				
 				
 				
-				if(inFromClient.readLine().contains("1")) {
+			/*	if(inFromClient.readLine().contains("1")) { */
 					/*String messages[] = new String[10];
 					int amountOfJsons = 10;
 					for (int i = 0; i < amountOfJsons; i++) {
 						messages[i] = inFromClient.readLine(); 
 					} */
-					for (int i=0; i<100; i++) {
+				/*	for (int i=0; i<100; i++) {
 						String temp = inFromClient.readLine();	
 						msg[i]=temp;
 					//	System.out.println(msg[i]);
@@ -153,10 +173,10 @@ public class TCPServer implements Runnable {
 					for (int i = 0; i < 100; i++) {
 						String temp = inFromClient.readLine();
 						msg5[i] = temp;
-						System.out.println(msg5[i]);
+				//		System.out.println(msg5[i]);
 						//board.connections.get(i).setTakenByPlayer();
 						
-					}
+					} */
 					
 					
 				//	String msg1 = inFromClient.readLine(); 
@@ -176,7 +196,7 @@ public class TCPServer implements Runnable {
 				//	ArrayList<Integer> arrayTest = new Gson().fromJson(msg2, ArrayList.class);
 					
 					
-					cn = new Connection[100];
+		/*			cn = new Connection[100];
 					for (int i=0; i<100; i++)
 					{
 						Connection temp = new Gson().fromJson(msg[i], Connection.class);
@@ -204,7 +224,7 @@ public class TCPServer implements Runnable {
 					{
 						PlayerPiece temp = new Gson().fromJson(msg4[i], PlayerPiece.class);
 						pPieces[i] = temp;
-					}
+					} */
 					
 				//	isTaken = new int[100];
 				/*	for (int i = 0; i < 100; i++) {
@@ -262,7 +282,7 @@ public class TCPServer implements Runnable {
 				//	System.out.println(playerPiece.getTotalPoints());
 					
 					
-				} else if(inFromClient.readLine().contains("state1")) { 
+				 if(inFromClient.readLine().contains("state1")) { 
 					// listen to whatever
 					System.out.println("Changed to state1");
 					turn.normalTurn(pArray, turn.endTurn());
@@ -277,6 +297,7 @@ public class TCPServer implements Runnable {
 					System.out.println("Changed to state3");
 				} else {
 					System.out.println("Activator was not 1 nor 2 nor states");
+					System.out.println("The wrongly incoming message was ----------" + inFromClient.readLine());
 				}
 
 				// CREATE ALL THE OTHER CLASS AS OBJECTS HERE, BUT MAKE SURE
@@ -380,12 +401,13 @@ public class TCPServer implements Runnable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			socket.close();
+			try {
+				socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-	}
-
-	public void run() {
-		System.out.println(Thread.currentThread().getName());
 
 	}
 
