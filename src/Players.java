@@ -164,7 +164,23 @@ public class Players {
 		
 	}
 	
+
+public int numOfColor(String color)
+{
+	int count = 0;
+	
+	for(int i = 0; i<handOfTrainCards.size(); i++)
+	{
+		if(handOfTrainCards.get(i).getColor().getColorName() == color)
+		{
+			count++;
+		}
+	}
+	return count;
 }
+
+}
+
 //Board b;
 //try {
 //	 b = new Board(1);
