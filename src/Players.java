@@ -33,16 +33,6 @@ public class Players {
 
 
 
-
-
-	public void setNumOfTrains(int numOfTrains) {
-		this.numOfTrains = numOfTrains;
-	}
-
-
-
-
-
 	public ArrayList<Card> getHandOfMissions() {
 		return handOfMissions;
 	}
@@ -92,10 +82,10 @@ public class Players {
 
 
 	//Add one or two train cards to player hand
-	public void AddTrainCard(Card TC)
-	{
-		handOfTrainCards.add(TC);
-	}
+//	public void AddTrainCard(Card TC)
+//	{
+//		handOfTrainCards.add(TC);
+//	}
 	
 	public void AddTrainCard(Card TC1, Card TC2)
 	{
@@ -103,11 +93,11 @@ public class Players {
 		handOfTrainCards.add(TC2);
 	}
 	
-	// add 1-3 mission cards
-	public void AddMissionCard(Card MC)
-	{
-		handOfMissions.add(MC);
-	}
+//	// add 1-3 mission cards
+//	public void AddMissionCard(Card MC)
+//	{
+//		handOfMissions.add(MC);
+//	}
 	
 	public void AddMissionCard(Card MC1, Card MC2)
 	{
@@ -115,13 +105,13 @@ public class Players {
 		handOfMissions.add(MC2);
 	}
 	
-	public void AddMissionCard(Card MC1, Card MC2, Card MC3)
-	{
-		handOfMissions.add(MC1);
-		handOfMissions.add(MC2);
-		handOfMissions.add(MC3);
-	}
-	
+//	public void AddMissionCard(Card MC1, Card MC2, Card MC3)
+//	{
+//		handOfMissions.add(MC1);
+//		handOfMissions.add(MC2);
+//		handOfMissions.add(MC3);
+//	}
+//	
 	
 	
 	public void removeTrainCard(String color, int num)
@@ -133,9 +123,10 @@ public class Players {
 			if(handOfTrainCards.get(i).getColor().getColorName() == color)
 			{
 				count++;
-				if(count>=num)
+				if(count == num)
 				{
 					go = true;
+					
 				}
 				
 			}
@@ -146,48 +137,31 @@ public class Players {
 		}
 		
 		if(go)
+			
 		{
-			int tmpSize = handOfTrainCards.size();
+			
 			count = 0;
-			for(int i = 0; i<tmpSize; i++ )
+			
+			for(int i = handOfTrainCards.size()-1; i>=0; i-- )
 			{
+				
 				if(handOfTrainCards.get(i).getColor().getColorName() == color && count < num)
 				{
+					
 					handOfTrainCards.remove(i);
+					System.out.println("removed "+i);
 					count++;
+					System.out.println("count= "+count);
+					
+					System.out.println(handOfTrainCards.size());
+
 				}
+				
 			}
+			
 			numOfTrains -= num;
 		}
 		
 	}
 	
 }
-// TEST!!!
-//System.out.println("hej");
-//Board b;
-//try {
-//	 b = new Board(4);
-//
-//Players player1 = new Players(1,b.colors[0]);
-//
-//
-//player1.AddTrainCard(b.trainCards[1], b.trainCards[2]);
-//
-//player1.getHandOfTrainCards();
-//for(int i = 0; i<player1.handOfTrainCards.size(); i++)
-//{
-//System.out.println(player1.handOfTrainCards.get(i).getColor().getColorName());
-//}
-//player1.removeTrainCard("blue", 1);
-//System.out.println(player1.getNumOfTrains());
-//
-//
-//
-//
-//
-//
-//} catch (SlickException e1) {
-//	// TODO Auto-generated catch block
-//	e1.printStackTrace();
-//}
