@@ -44,6 +44,8 @@ public class TCPServer implements Runnable {
 	static Card[] tCards;
 	static Card[] dtCards;
 	
+	static Players[] pArray;
+	
 	static PlayerPiece[] pPieces;
 	
 	static int[] isTaken;
@@ -255,11 +257,17 @@ public class TCPServer implements Runnable {
 				//	System.out.println(playerPiece.getTotalPoints());
 					
 					
-				} else if(inFromClient.readLine().contains("2")) {
-					turn.normalTurn(pArray, turn.EndTurn());
-				}
-				else {
-					System.out.println("Activator was not 1 nor 2");
+				} else if(inFromClient.readLine().contains("state1")) {
+					// listen to whatever
+					turn.normalTurn(pArray, turn.endTurn());
+				} else if(inFromClient.readLine().contains("state2")) {
+					// listen to whatever
+					turn.normalTurn(pArray, turn.endTurn());
+				} else if(inFromClient.readLine().contains("state3")) {
+					// listen to whatever
+					turn.normalTurn(pArray, turn.endTurn());
+				} else {
+					System.out.println("Activator was not 1 nor 2 nor states");
 				}
 
 				// CREATE ALL THE OTHER CLASS AS OBJECTS HERE, BUT MAKE SURE
@@ -304,7 +312,7 @@ public class TCPServer implements Runnable {
 					Players p4 = new Players(connectionArray.get(3), 4, 255, 255, 255);
 					 
 					
-					Players[] pArray = new Players[4];
+					pArray = new Players[4];
 					pArray[0] = p1;
 					pArray[1] = p2;
 					pArray[2] = p3;
@@ -314,7 +322,7 @@ public class TCPServer implements Runnable {
 					
 					
 					
-					turn.normalTurn(pArray);
+					
 					
 					
 					
