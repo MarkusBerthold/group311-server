@@ -26,7 +26,7 @@ public class TCPServer implements Runnable {
 	//static Stack stack;
 	//static TrainCardStack trainCardStack;
 	//static DisplayedTrainStack displayedTrainStack;
-	//static HandMissionStack handMissionStack;
+	static HandMissionStack handMissionStack;
 	//static MissionCardStack missionCardStack;
 	//static TrainTrashStack trainTrashStack;
 	//static MissionTrashStack missionTrashStack;
@@ -309,10 +309,22 @@ public class TCPServer implements Runnable {
 
 					gameHasBeenInitiated = true;
 					
-					Players p1 = new Players(connectionArray.get(0), 1, 255, 0, 0);
+			/*		Players p1 = new Players(connectionArray.get(0), 1, 255, 0, 0);
 					Players p2 = new Players(connectionArray.get(1), 2, 0, 255, 0); 
 					Players p3 = new Players(connectionArray.get(2), 3, 0, 0, 255);
-					Players p4 = new Players(connectionArray.get(3), 4, 255, 255, 255);
+					Players p4 = new Players(connectionArray.get(3), 4, 255, 255, 255); */
+					
+					Players p1 = new Players(1, board.colors[1]);
+					p1.setSock(connectionArray.get(0));
+					
+					Players p2 = new Players(2, board.colors[2]);
+					p2.setSock(connectionArray.get(1));
+					
+					Players p3 = new Players(3, board.colors[3]);
+					p3.setSock(connectionArray.get(2));
+					
+					Players p4 = new Players(4, board.colors[4]);
+					p4.setSock(connectionArray.get(3));
 					 
 					
 					pArray = new Players[4];
