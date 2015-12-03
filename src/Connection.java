@@ -45,7 +45,6 @@ public class Connection {
 
 		isVisited = false;
 	}
-	
 	Connection(CustomColor _color, Town _townA, Town _townB, int _length, int _point, int a) {
 
 		this.length = _length;
@@ -53,6 +52,7 @@ public class Connection {
 		this.color = _color;
 		this.setTownA(_townA);
 		this.setTownB(_townB);
+		
 
 		this.setTaken(false);
 		isTaken = false;
@@ -105,18 +105,23 @@ public class Connection {
 		
 		return false;
 	}
-	public void setTakenByPlayer(Players player, Graphics g){
+	public void setTakenByPlayer(Players player){
 		ownedBy = player.playerNum;
 		this.isTaken = true;
+	}
+	public void drawConnection(Players player, Graphics g){
 		
-		//g.setColor(player.getCustomColor().getColor());
-		g.setColor(player.getPlColor().getColor()); //getCustomColor().getColor());
-	
+		setTakenByPlayer(player);
 		
+		g.setColor(player.getPlColor().getColor());
 		g.drawLine(townA.getxPos(), 768-townA.getyPos(), townB.getxPos(), 768-townB.getyPos());
 		
-		
-		//return g;
+		//movePlayerPiece(this.point);
 	}
+	public int getPoint() {
+		return point;
+	}
+	
+	
 
 }

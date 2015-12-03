@@ -1,8 +1,4 @@
-
-
-
 import java.util.ArrayList;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -13,7 +9,7 @@ public class Board {
 	Town[] towns;
 	EndButton button;
 	
-	PlayerPiece[] players;
+	PlayerPiece[] playerPieces;
 
 	
 	ArrayList<Connection> connections = new ArrayList<Connection>();
@@ -22,46 +18,55 @@ public class Board {
 	Card summaryCard;
 	Card[] missionCards;
 	Card[] trainCards;
-	Card stationaryCard;
+	Card stationaryCardT, stationaryCardM;
 
 	// Create a stack for all the missions
 	Stack missionCardStack;
-	// Create a stack for all the traincards
-	Stack trainCardStack;	
-	// DeckOfCards that should be used to create the array list of the train card stack
-	Stack stackOfTraincards;
+	Stack trainCardStack;		// Create a stack for all the traincards
 
-	ArrayList<Card> arrayOfTraincards;
-	ArrayList<Card> player1HandStack, player2HandStack, player3HandStack, player4HandStack;					// Instantiate playerhandstack arrays
-	ArrayList<Card> displayedStack;
+	ArrayList<Card> player1MissionHandStack, player2MissionHandStack, player3MissionHandStack, player4MissionHandStack;
+	ArrayList<Card> player1TrainHandStack, player2TrainHandStack, player3TrainHandStack, player4TrainHandStack;					// Instantiate player hand stack array lists
+	ArrayList<Card> arrayOfMissionCards, arrayOfTrainCards, displayedTrainStack;							// Instantiate train card stack, displayed train card stack and displayed mission card stack arraylists
 
+	int blueColorCounter, redColorCounter, orangeColorCounter, whiteColorCounter, yellowColorCounter, blackColorCounter, greenColorCounter, pinkColorCounter;
+	int handTrainCardIncrementer;
+	
 	Board(int numOfPlayers) throws SlickException {
 		
-		player1HandStack = new ArrayList<Card>();			// Player hand stack
-		player2HandStack = new ArrayList<Card>();			// Player hand stack
-		player3HandStack = new ArrayList<Card>();			// Player hand stack
-		player4HandStack = new ArrayList<Card>();			// Player hand stack
+		player1TrainHandStack = new ArrayList<Card>();			// Player hand stack
+		player2TrainHandStack = new ArrayList<Card>();			// Player hand stack
+		player3TrainHandStack = new ArrayList<Card>();			// Player hand stack
+		player4TrainHandStack = new ArrayList<Card>();			// Player hand stack
 		
-		stackOfTraincards = new Stack();																	// Un-shuffled cards
+		player1MissionHandStack = new ArrayList<Card>();			// Player hand stack
+		player2MissionHandStack = new ArrayList<Card>();			// Player hand stack
+		player3MissionHandStack = new ArrayList<Card>();			// Player hand stack
+		player4MissionHandStack = new ArrayList<Card>();			// Player hand stack
 		
+		displayedTrainStack = new ArrayList<Card>();		// Displayed stack on the board
+				
 		// set the amount of towns, connections, colors and players
 		towns = new Town[36];
 		colors = new CustomColor[9];
-		players = new PlayerPiece[numOfPlayers];
+		playerPieces = new PlayerPiece[numOfPlayers];
 
 		// create the different types of cards
 		summaryCard = new SummaryCard();
 		
 		// create stationary card for a stationary backImage on the mission and train stacks
-		stationaryCard = new StationaryCard();
-		missionCards = new MissionCard[30];
+		stationaryCardT = new StationaryCard();
+		stationaryCardT.xPos = 1024 - Card.width;
+		stationaryCardT.yPos += Card.height;
 		
+		stationaryCardM = new StationaryCard();
+		stationaryCardM.xPos = 1024 - Card.width;
+		stationaryCardM.yPos = 1;
+		
+		missionCards = new MissionCard[30];
 		//trainCards = new TrainCard[110];		with joker
 		trainCards = new TrainCard[96];		// without jokers
 
-
 		// create all the different colors for the trains/players
-		
 		colors[0] = new CustomColor("blue", 0, new Color(0,0,255));
 		colors[1] = new CustomColor("red", 1, new Color(255,0,0));
 		colors[2] = new CustomColor("orange", 2, new Color(255,127,0));
@@ -99,14 +104,14 @@ public class Board {
 		towns[19] = new Town("Houston", 4, 532, 184);
 		towns[20] = new Town("Sault St Marie", 4, 616, 553);
 		towns[21] = new Town("Chicago", 7, 612, 441);
-		towns[22] = new Town("Saint Louis", 7, 573, 386);
+		towns[22] = new Town("Saint Louis", 7, 573, 370);
 		towns[23] = new Town("Little Rock", 5, 557, 290);
 		towns[24] = new Town("New Orleans", 5, 613, 192);
 		towns[25] = new Town("Montreal", 5, 784, 611);
 		towns[26] = new Town("Toronto", 5, 712, 534);
 		towns[27] = new Town("Pittsburgh", 9, 726, 453);
 		towns[28] = new Town("Nashville", 5, 654, 335);
-		towns[29] = new Town("Atlanta", 7, 669, 304);
+		towns[29] = new Town("Atlanta", 7, 695, 304);
 		towns[30] = new Town("Boston", 4, 845, 559);
 		towns[31] = new Town("New York", 7, 800, 493);
 		towns[32] = new Town("Washington", 5, 807, 414);
@@ -146,10 +151,10 @@ public class Board {
 		connections.add(new Connection(colors[6], towns[1], towns[5], 4, 7));
 		
 		//connections[10] = new Connection(colors[4], towns[1], towns[6], 6, 13);
-		connections.add(new Connection(colors[4], towns[1], towns[6], 6, 13));
+		connections.add(new Connection(colors[4], towns[1], towns[6], 6, 15));
 		
 		//connections[11] = new Connection(colors[0], towns[2], towns[7], 6, 13);
-		connections.add(new Connection(colors[0], towns[2], towns[7], 6, 13));
+		connections.add(new Connection(colors[0], towns[2], towns[7], 6, 15));
 		
 		//connections[12] = new Connection(colors[2], towns[3], towns[7], 5, 10);
 		connections.add(new Connection(colors[2], towns[3], towns[7], 5, 10));
@@ -164,10 +169,10 @@ public class Board {
 		connections.add(new Connection(colors[6], towns[4], towns[9], 3, 4));
 		
 		//connections[16] = new Connection(colors[5], towns[4], towns[13], 6, 13);
-		connections.add(new Connection(colors[5], towns[4], towns[13], 6, 13));
+		connections.add(new Connection(colors[5], towns[4], towns[13], 6, 15));
 		
 		//connections[17] = new Connection(colors[3], towns[5], towns[10], 6, 13);
-		connections.add(new Connection(colors[3], towns[5], towns[10], 6, 13));
+		connections.add(new Connection(colors[3], towns[5], towns[10], 6, 15));
 		
 		//connections[18] = new Connection(colors[6], towns[5], towns[6], 4, 7);
 		connections.add(new Connection(colors[6], towns[5], towns[6], 4, 7));
@@ -194,7 +199,7 @@ public class Board {
 		connections.add(new Connection(colors[0], towns[6], towns[10], 4, 7));
 		
 		//connections[26] = new Connection(colors[2], towns[6], towns[14], 6, 13);
-		connections.add(new Connection(colors[2], towns[6], towns[14], 6, 13));
+		connections.add(new Connection(colors[2], towns[6], towns[14], 6, 15));
 		
 		//connections[27] = new Connection(colors[1], towns[6], towns[15], 5, 10);
 		connections.add(new Connection(colors[1], towns[6], towns[15], 5, 10));
@@ -212,7 +217,7 @@ public class Board {
 		connections.add(new Connection(colors[2], towns[11], towns[16], 4, 7));
 		
 		//connections[32] = new Connection(colors[1], towns[11], towns[7], 4, 7);
-		connections.add(new Connection(colors[1], towns[11], towns[7], 4, 7));
+		connections.add(new Connection(colors[1], towns[11], towns[17], 4, 7));
 		
 		//connections[33] = new Connection(colors[6], towns[11], towns[12], 2, 2);
 		connections.add(new Connection(colors[6], towns[11], towns[12], 2, 2));
@@ -230,10 +235,10 @@ public class Board {
 		connections.add(new Connection(colors[1], towns[13], towns[18], 4, 7));
 		
 		//connections[38] = new Connection(colors[7], towns[13], towns[19], 6, 13);
-		connections.add(new Connection(colors[7], towns[13], towns[19], 6, 13));
+		connections.add(new Connection(colors[7], towns[13], towns[19], 6, 15));
 		
 		//connections[39] = new Connection(colors[6], towns[10], towns[20], 6, 13);
-		connections.add(new Connection(colors[6], towns[10], towns[20], 6, 13));
+		connections.add(new Connection(colors[6], towns[10], towns[20], 6, 15));
 		
 		//connections[40] = new Connection(colors[5], towns[10], towns[14], 4, 7);
 		connections.add(new Connection(colors[5], towns[10], towns[14], 4, 7));
@@ -242,7 +247,7 @@ public class Board {
 		connections.add(new Connection(colors[6], towns[14], towns[20], 3, 4));
 		
 		//connections[42] = new Connection(colors[8], towns[14], towns[26], 6, 13);
-		connections.add(new Connection(colors[8], towns[14], towns[26], 6, 13));
+		connections.add(new Connection(colors[8], towns[14], towns[26], 6, 15));
 		
 		//connections[43] = new Connection(colors[1], towns[14], towns[21], 3, 4);
 		connections.add(new Connection(colors[1], towns[14], towns[21], 3, 4));
@@ -284,7 +289,7 @@ public class Board {
 		connections.add(new Connection(colors[6], towns[17], towns[18], 2, 2));
 		
 		//connections[56] = new Connection(colors[0], towns[15], towns[21], 4, 7);
-		connections.add(new Connection(colors[0], towns[15], towns[21], 4, 7));
+		connections.add(new Connection(colors[6], towns[18], towns[23], 2, 2));
 		
 		//connections[57] = new Connection(colors[6], towns[18], towns[19], 1, 1);
 		connections.add(new Connection(colors[6], towns[18], towns[19], 1, 1));
@@ -293,7 +298,7 @@ public class Board {
 		connections.add(new Connection(colors[6], towns[18], towns[19], 1, 1));
 		
 		//connections[59] = new Connection(colors[6], towns[18], towns[24], 2, 2);
-		connections.add(new Connection(colors[6], towns[18], towns[24], 2, 2));
+		connections.add(new Connection(colors[6], towns[19], towns[24], 2, 2));
 
 		//connections[60] = new Connection(colors[5], towns[20], towns[25], 5, 10);
 		connections.add(new Connection(colors[5], towns[20], towns[25], 5, 10));
@@ -341,7 +346,7 @@ public class Board {
 		connections.add(new Connection(colors[2], towns[24], towns[29], 4, 7));
 		
 		//connections[75] = new Connection(colors[1], towns[24], towns[35], 6, 13);
-		connections.add(new Connection(colors[1], towns[24], towns[35], 6, 13));
+		connections.add(new Connection(colors[1], towns[24], towns[35], 6, 15));
 		
 		//connections[76] = new Connection(colors[6], towns[26], towns[27], 2, 2);
 		connections.add(new Connection(colors[6], towns[26], towns[27], 2, 2));
@@ -415,6 +420,9 @@ public class Board {
 		//connections[99] = new Connection(colors[2], towns[7], towns[8], 3, 4);
 		connections.add(new Connection(colors[2], towns[7], towns[8], 3, 4));
 		
+		//This one did not exist when I tested, not sure what happened here
+		//connections.add(new Connection(colors[6], towns[18], towns[23], 2, 2));
+		
 
 		// creating all the mission cards
 		missionCards[0] = new MissionCard(towns[11], towns[13], 4);
@@ -449,8 +457,22 @@ public class Board {
 		missionCards[29] = new MissionCard(towns[1], towns[31], 22);
 
 		// adding all the mission cards in a new stack called missioncardstack
-		missionCardStack = new Stack(missionCards);
+		missionCardStack = new Stack(missionCards, 1);
 
+		// Shuffle mission cards in the missioncard stack
+		//missionCardStack.shuffle(missionCards);
+		// Set the mouse input conditions for the collision of the missioncard stack
+		missionCardStack.xPos = 1024 - Card.width;
+		missionCardStack.yPos += Card.height;
+		
+		/*
+		 * Shuffle cards
+		 * Copy the shuffled cards to the array list arrayOfMissionCards	
+		 */
+		missionCardStack.shuffleB(missionCards, 1000);
+		arrayOfMissionCards = missionCardStack.getdeckOfB();
+		// CONTROL: amount of cards in the mission card stack
+		System.out.println("Amount of face-down cards in the mission stack on the board: " + arrayOfMissionCards.size());
 		
 		// creating all the trainCards
 		for (int i = 0; i < trainCards.length; i++) {
@@ -476,12 +498,74 @@ public class Board {
 		// adding all the mission cards in a new stack called traincardstack
 		trainCardStack = new Stack(trainCards);
 		
-		//PlayerPiece instantiation.
-		for (int i=0; i<players.length;i++)
-		{
-			players[i]= new PlayerPiece(null, i+1);
+		// x position values for the trainCards
+		for (int i = 0; i < trainCards.length; i++) {
+			trainCards[i].xPos = 1024 - Card.width;
+		}
+				
+		// Set the mouse input conditions for the borders of the traincard stack
+		trainCardStack.xPos = 1024 - Card.width;
+		trainCardStack.yPos += Card.height;
+		
+		/*
+		 * Shuffle cards
+		 * Copy the shuffled cards to the array list arrayOfTrainCards	
+		 */ 
+		trainCardStack.shuffleA(1000);
+		arrayOfTrainCards = trainCardStack.getdeckOfA();		
+		System.out.println("Amount of face-down cards in the train stack on the board: " + arrayOfTrainCards.size());
+		
+		for(int i = 0; i < 4; i++) {
+		player1TrainHandStack.add(arrayOfTrainCards.get(0));
+		arrayOfTrainCards.remove(0);
+		}
+		 
+		
+		for(int i = 0; i < 4; i++) {
+			player2TrainHandStack.add(arrayOfTrainCards.get(0));
+			arrayOfTrainCards.remove(0);
+		}
+			
+		
+		for(int i = 0; i < 4; i++) {
+			player3TrainHandStack.add(arrayOfTrainCards.get(0));
+			arrayOfTrainCards.remove(0);
 		}
 		
+		for(int i = 0; i < 4; i++) {
+			player4TrainHandStack.add(arrayOfTrainCards.get(0));
+			arrayOfTrainCards.remove(0);
+		}
+		
+		/*
+		 * Tasks, which should happen in 1 for loop: 
+		 * copy card from arrayOfTrainCards to displayedTrainStack
+		 * the copied card in arrayOfTrainCards should be removed
+		 */
+//		int displayedTrainCardIncrementer = 2;
+
+		for (int i = 0; i < 5; i++) {
+			displayedTrainStack.add(arrayOfTrainCards.get(0)); // card#deckOfA --> card#playerHandStack
+//			displayedTrainStack.get(i).yPos = 85 * displayedTrainCardIncrementer;
+			arrayOfTrainCards.remove(0); // card#deckOfA --> remove
+//			displayedTrainCardIncrementer++;
+		}
+		
+		// CONTROL: amount of train cards in the displayed card stack
+		System.out.println("Amount of face-up cards in the displayed stack on the board: " + displayedTrainStack.size() + "		");
+		// CONTROL: amount of train cards in the player hand stack
+		System.out.println("Amount of cards in player 1 hand stack: " + player1TrainHandStack.size() + "		");	
+		// CONTROL: amount of train cards in the player hand stack listed by color
+		System.out.println("Blue cards: " + blueColorCounter + ", Red cards: " + redColorCounter + ", Orange cards: " + orangeColorCounter + ", White cards: " + whiteColorCounter + ", Yellow cards: " + yellowColorCounter + ", Black cards: " + blackColorCounter + ", Green cards: " + greenColorCounter + ", Pink cards: " + pinkColorCounter);
+		// CONTROL: amount of cards in the train card stack
+		System.out.println("Amount of face-down cards in the train stack on the board: " + arrayOfTrainCards.size());
+		System.out.println(" "); // for spacing
+		System.out.println("Amount of face-up cards in the train stack on the board: " + displayedTrainStack.size() + "		");			// print the cards in the players hand stack
+				
+		//PlayerPiece instantiation.
+		for (int i=0; i<playerPieces.length;i++) {
+			playerPieces[i]= new PlayerPiece(null, i+1);
+		}
 	}
 
 	public Image getBoardPic() {
@@ -492,4 +576,3 @@ public class Board {
 		this.boardPic = new Image("/pics/Map.jpg");
 	}
 }
-

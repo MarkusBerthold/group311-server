@@ -18,7 +18,7 @@ public class Turn {
 	// on the initial turn each player is dealt 4 train cards and 2 mission
 	// cards
 
-	void initialTurn(Players[] pArray) throws IOException {
+	void initialTurn() throws IOException {
 
 		// to do this we run a for loop to go through a switch case to deal the
 		// cards to each player
@@ -35,10 +35,10 @@ public class Turn {
 				// to the players hand must override the hand stack in the
 				// Players class
 
-				pArray[0].getHandOfTrainCards();
+				//pArray[0].getHandOfTrainCards();
 				// pArray[0].setHandOfTrainCards(SomeTrainStack);
 
-				pArray[0].getHandOfMissions();
+				//pArray[0].getHandOfMissions();
 				// pArray[0].setHandOfMissions(SomeMissionStack);
 
 				break;
@@ -46,10 +46,10 @@ public class Turn {
 				System.out.println("player 2");
 				// update the stack sizes for player 2 to the board and send it
 
-				pArray[1].getHandOfTrainCards();
+				//pArray[1].getHandOfTrainCards();
 				// pArray[1].setHandOfTrainCards(SomeTrainStack);
 
-				pArray[1].getHandOfMissions();
+				//pArray[1].getHandOfMissions();
 				// pArray[1].setHandOfMissions(SomeMissionStack);
 
 				break;
@@ -57,10 +57,10 @@ public class Turn {
 				System.out.println("player 3");
 				// update the stack sizes for player 3 to the board and send it
 
-				pArray[2].getHandOfTrainCards();
+				//pArray[2].getHandOfTrainCards();
 				// pArray[2].setHandOfTrainCards(SomeTrainStack);
 
-				pArray[2].getHandOfMissions();
+				//pArray[2].getHandOfMissions();
 				// pArray[2].setHandOfMissions(SomeMissionStack);
 
 				break;
@@ -68,10 +68,10 @@ public class Turn {
 				System.out.println("player 4");
 				// update the stack sizes for player 4 to the board and send it
 
-				pArray[3].getHandOfTrainCards();
+				//pArray[3].getHandOfTrainCards();
 				// pArray[3].setHandOfTrainCards(SomeTrainStack);
 
-				pArray[3].getHandOfMissions();
+				//pArray[3].getHandOfMissions();
 				// pArray[3].setHandOfMissions(SomeMissionStack);
 
 				//
