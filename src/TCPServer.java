@@ -47,6 +47,8 @@ public class TCPServer implements Runnable {
 	static PlayerPiece[] pPieces;
 	
 	static int[] isTaken;
+	
+	Turn turn = new Turn();
 
 	public static void main(String[] args) throws IOException {
 
@@ -289,13 +291,26 @@ public class TCPServer implements Runnable {
 				if (connectionArray.size() == 4 && !gameHasBeenInitiated) {
 					gameState = 1; // 1 for initiate game
 
-					initiateGame();
+					
 
 					gameHasBeenInitiated = true;
-		/*			Players p1 = new Players(connectionArray.get(0), "player1");
-					Players p3 = new Players(connectionArray.get(2), "player3");
-					Players p4 = new Players(connectionArray.get(3), "player4");
-					Players p2 = new Players(connectionArray.get(1), "player2"); 
+					
+					Players p1 = new Players(connectionArray.get(0), 1, 255, 0, 0);
+					Players p2 = new Players(connectionArray.get(1), 2, 0, 255, 0); 
+					Players p3 = new Players(connectionArray.get(2), 3, 0, 0, 255);
+					Players p4 = new Players(connectionArray.get(3), 4, 255, 255, 255);
+					 
+					
+					Players[] pArray = new Players[4];
+					pArray[0] = p1;
+					pArray[1] = p2;
+					pArray[2] = p3;
+					pArray[3] = p4;
+					
+					turn.initialTurn(pArray);
+					
+					
+					
 					
 					String playerJson1 = new Gson().toJson(p1);
 					//String t = new Gson().toJson(ta);
@@ -344,12 +359,5 @@ public class TCPServer implements Runnable {
 
 	}
 
-	public static void initiateGame() {
 
-		for (int i = 1; i <= connectionArray.size(); i++) {
-			// if (connectionArray[i].) {
-
-			// }
-		}
-	}
 }
