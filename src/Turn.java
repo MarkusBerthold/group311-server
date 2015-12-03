@@ -8,25 +8,22 @@ import java.util.ArrayList;
 public class Turn {
 
 	int finalTurnCounter;
+	
 
-	String currentPlayer;
-	Players[] pArray;
+	int currentPlayer= 0;
+	
 
-	public ArrayList<Socket> connectionArray;
+	
 
 	InputStreamReader isr;
 	BufferedReader inFromClient;
 
-	public Turn(ArrayList<Socket> connectionArray, Players[] playerArray) {
-
-		this.connectionArray = connectionArray;
-		this.pArray = playerArray;
-	}
+	
 
 	// on the initial turn each player is dealt 4 train cards and 2 mission
 	// cards
 
-	void initialTurn() {
+	void initialTurn(Players[] pArray)throws IOException {
 
 		// to do this we run a for loop to go through a switch case to deal the
 		// cards to each player
@@ -86,6 +83,8 @@ public class Turn {
 				
 				pArray[3].getHandOfMissions();
 				//pArray[3].setHandOfMissions(SomeMissionStack);
+				
+				//
 
 				
 				break;
@@ -101,171 +100,43 @@ public class Turn {
 	// the switch case model to run through each players turn.
 		// takes a players object as an input
 
-	void normalTurn(Players p) throws IOException {
+	void normalTurn(Players[] pArray, int whoseTurn) throws IOException {
 
-		int inputNum = 0;
+		
+		
 
-		// get input from client to determine which player is going to act
+		
 
-		// if(inFromClient.readLine().contains("Player1")){
-		// currentPlayer= "player1";
-
-		// } else if(inFromClient.readLine().contains("Player2")){
-		// currentPlayer= "player2";
-
-		// } else if(inFromClient.readLine().contains("Player3")){
-		// currentPlayer= "player3";
-
-		// }else if(inFromClient.readLine().contains("Player4")){
-		// currentPlayer= "player4";
-		// }
-
-		// get input from client for what type of action he will be doing
-
-		// if(inFromClient.readLine().contains("1")){
-		// inputNum= 1;
-
-		// } else if(inFromClient.readLine().contains("2")){
-		// inputNum= 2;
-
-		// } else if(inFromClient.readLine().contains("3")){
-		// inputNum= 3;
-
-		// }else if(inFromClient.readLine().contains("4")){
-		// inputNum= 4;
-		// }
-
-		// this switch case keeps track of which player is going to act. it
-		// takes the string from the bufferedReader input
-
-		// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		// edit the switch cases here and apply them to the other cases for
-		// "currentPlayer"
-
-		switch (currentPlayer) {
+		switch (whoseTurn) {
 
 		// within the switch case are 4 cases that will initiate their own
 		// switch cases
 		// these determine what kind of action the player will perform and apply
 		// the action to the selected player
-		case "Player1":
-			switch (inputNum) {
-
-			// first action case: the player wants to draw some train cards
-			case 1:
-				System.out.println("choose to draw cards");
-				int cardsDrawn = 0;
-				// draw 2 cards, either from open stack or the stack
-				// currentPlayer.addCardToHandStack()
-				pArray[0].getHandOfTrainCards();
-
-				if (cardsDrawn == 2) {
-
-					finalTurnCounter++;
-					if (finalTurnCounter > 4) {
-						finalTurnCounter = 1;
-					}
-				}
-				break;
+		case 1:
+			
 
 			// second action: the player wants to pick up mission cards
-			case 2:
-				System.out.println("Choose to draw an extra mission");
-
-				pArray[0].getHandOfMissions();
-
-				break;
-
-			// third case: the player wants to play some trains and train cards
-			case 3:
-				System.out.println("choose to play trains");
-
-				break;
-
-			}
+			
+			
 			break;
 
 		// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 		// same as above but for player 2
 
-		case "Player2":
-			switch (inputNum) {
-
-			case 1:
-				System.out.println("choose to draw cards");
-				int cardsDrawn = 0;
-				// draw 2 cards, either from open stack or the stack
-				// currentPlayer.addCardToHandStack()
-
-				if (cardsDrawn == 2) {
-
-				}
-				break;
-			case 2:
-				System.out.println("Choose to draw an extra mission");
-				//
-
-				break;
-			case 3:
-				System.out.println("choose to play trains");
-
-				break;
-
-			}
+		case 2:
+			
 
 			// same for player 3
 
-		case "Player3":
-			switch (inputNum) {
-
-			case 1:
-				System.out.println("choose to draw cards");
-				int cardsDrawn = 0;
-				// draw 2 cards, either from open stack or the stack
-				// currentPlayer.addCardToHandStack()
-
-				if (cardsDrawn == 2) {
-
-				}
-				break;
-			case 2:
-				System.out.println("Choose to draw an extra mission");
-				//
-
-				break;
-			case 3:
-				System.out.println("choose to play trains");
-
-				break;
-
-			}
+		case 3:
+			
 
 			// same for player 4
-		case "Player4":
-			switch (inputNum) {
-
-			case 1:
-				System.out.println("choose to draw cards");
-				int cardsDrawn = 0;
-				// draw 2 cards, either from open stack or the stack
-				// currentPlayer.addCardToHandStack()
-
-				if (cardsDrawn == 2) {
-
-				}
-				break;
-			case 2:
-				System.out.println("Choose to draw an extra mission");
-				//
-
-				break;
-			case 3:
-				System.out.println("choose to play trains");
-
-				break;
-
-			}
+		case 4:
+			
+			break;
 		}
 
 		// last turn
@@ -312,6 +183,18 @@ public class Turn {
 
 		}
 
+	}
+	
+	public int endTurn(){
+		
+		
+		currentPlayer++;
+		
+		if(currentPlayer > 4){
+			currentPlayer= 1;
+		}
+		
+		return currentPlayer;
 	}
 
 }

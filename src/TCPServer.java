@@ -18,10 +18,9 @@ import org.newdawn.slick.SlickException;
 public class TCPServer implements Runnable {
 
 	public static ArrayList<Socket> connectionArray = new ArrayList<Socket>();
-
-	public static int gameState = 0;
 	public static boolean gameHasBeenInitiated = false;
 	
+	static Board board;
 	static Train train;
 	static Town town;
 	//static Stack stack;
@@ -37,13 +36,19 @@ public class TCPServer implements Runnable {
 	
 	static ArrayList<Integer> arrayTest;
 	static Card mc;
-	static String[] msg ,msg2, msg3, msg4;
+	static String[] msg ,msg2, msg3, msg4, msg5;
 	
 	static Connection[] cn;
 	static Card[] tCards;
 	static Card[] dtCards;
 	
+	static Players[] pArray;
+	
 	static PlayerPiece[] pPieces;
+	
+	static int[] isTaken;
+	
+	static Turn turn;
 
 	public static void main(String[] args) throws IOException {
 
@@ -59,6 +64,16 @@ public class TCPServer implements Runnable {
 		threadThree.start();
 		threadFour.start();
 		threadFive.start();
+		
+		try {
+			board = new Board(4);
+			turn = new Turn();
+			
+			
+		} catch (SlickException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		
 		
@@ -105,6 +120,9 @@ public class TCPServer implements Runnable {
 				msg2 = new String[87];
 				msg3 = new String[5];
 				msg4 = new String[4];
+				msg5 = new String[100];
+				
+				
 				
 				if(inFromClient.readLine().contains("1")) {
 					/*String messages[] = new String[10];
@@ -132,6 +150,13 @@ public class TCPServer implements Runnable {
 						String temp = inFromClient.readLine();
 						msg4[i] = temp;
 					}
+					for (int i = 0; i < 100; i++) {
+						String temp = inFromClient.readLine();
+						msg5[i] = temp;
+						System.out.println(msg5[i]);
+						//board.connections.get(i).setTakenByPlayer();
+						
+					}
 					
 					
 				//	String msg1 = inFromClient.readLine(); 
@@ -149,6 +174,8 @@ public class TCPServer implements Runnable {
 				//	Town town = new Gson().fromJson(msg2, Town.class);
 				//	Card mc = new Gson().fromJson(msg2, Card.class);
 				//	ArrayList<Integer> arrayTest = new Gson().fromJson(msg2, ArrayList.class);
+					
+					
 					cn = new Connection[100];
 					for (int i=0; i<100; i++)
 					{
@@ -175,9 +202,16 @@ public class TCPServer implements Runnable {
 					pPieces = new PlayerPiece[4];
 					for (int i=0; i<4; i++)
 					{
-						PlayerPiece temp = new Gson().fromJson(msg[i], PlayerPiece.class);
+						PlayerPiece temp = new Gson().fromJson(msg4[i], PlayerPiece.class);
 						pPieces[i] = temp;
 					}
+					
+				//	isTaken = new int[100];
+				/*	for (int i = 0; i < 100; i++) {
+						int temp = new Gson().fromJson(msg5[i], Integer.class);
+						isTaken[i]=temp;
+						
+					} */
 					
 					
 					
@@ -209,7 +243,7 @@ public class TCPServer implements Runnable {
 				//	System.out.println(handTrainStack.amount);
 				//	System.out.println(displayedTrainStack.xPos);
 				//	System.out.println(handMissionStack.yPos);
-					System.out.println(cn[9].getIsTaken());
+		/*			System.out.println(cn[9].getIsTaken());
 					System.out.println(cn[89].getTownA().getName());
 					System.out.println(tCards[5].getColor().getColorName());
 					System.out.println(tCards[6].getColor().getColorName());
@@ -220,7 +254,7 @@ public class TCPServer implements Runnable {
 					System.out.println(dtCards[2].getColor().getColorName());
 					System.out.println(dtCards[3].getColor().getColorName());
 					System.out.println(dtCards[4].getColor().getColorName());
-					System.out.println(pPieces[2].getTotalPoints());
+					System.out.println(pPieces[2].getTotalPoints()); */
 				
 				//	System.out.println(arrayTest);
 				//	System.out.println(mc.xPos);
@@ -228,8 +262,17 @@ public class TCPServer implements Runnable {
 				//	System.out.println(playerPiece.getTotalPoints());
 					
 					
+				} else if(inFromClient.readLine().contains("state1")) { 
+					// listen to whatever
+					turn.normalTurn(pArray, turn.endTurn());
+				} else if(inFromClient.readLine().contains("state2")) {
+					// listen to whatever
+					turn.normalTurn(pArray, turn.endTurn());
+				} else if(inFromClient.readLine().contains("state3")) {
+					// listen to whatever
+					turn.normalTurn(pArray, turn.endTurn());
 				} else {
-					System.out.println("Activator was not 1");
+					System.out.println("Activator was not 1 nor 2 nor states");
 				}
 
 				// CREATE ALL THE OTHER CLASS AS OBJECTS HERE, BUT MAKE SURE
@@ -262,18 +305,28 @@ public class TCPServer implements Runnable {
 				// ps.println("msg received"); // Will be sent to the client
 
 				if (connectionArray.size() == 4 && !gameHasBeenInitiated) {
-					gameState = 1; // 1 for initiate game
-
-					initiateGame();
+					
 
 					gameHasBeenInitiated = true;
-
-		/*			Players p1 = new Players(connectionArray.get(0), "player1");
-					Players p3 = new Players(connectionArray.get(2), "player3");
-					Players p4 = new Players(connectionArray.get(3), "player4");
-					Players p2 = new Players(connectionArray.get(1), "player2"); 
 					
-					String playerJson1 = new Gson().toJson(p1);
+					Players p1 = new Players(connectionArray.get(0), 1, 255, 0, 0);
+					Players p2 = new Players(connectionArray.get(1), 2, 0, 255, 0); 
+					Players p3 = new Players(connectionArray.get(2), 3, 0, 0, 255);
+					Players p4 = new Players(connectionArray.get(3), 4, 255, 255, 255);
+					 
+					
+					pArray = new Players[4];
+					pArray[0] = p1;
+					pArray[1] = p2;
+					pArray[2] = p3;
+					pArray[3] = p4;
+					
+					turn.initialTurn(pArray);
+					
+					turn.normalTurn(pArray, 1); // player 1 starts
+					
+
+		/*			String playerJson1 = new Gson().toJson(p1);
 					//String t = new Gson().toJson(ta);
 					String playerJson2 = new Gson().toJson(p2);
 					String playerJson3 = new Gson().toJson(p3);
@@ -320,12 +373,5 @@ public class TCPServer implements Runnable {
 
 	}
 
-	public static void initiateGame() {
 
-		for (int i = 1; i <= connectionArray.size(); i++) {
-			// if (connectionArray[i].) {
-
-			// }
-		}
-	}
 }
