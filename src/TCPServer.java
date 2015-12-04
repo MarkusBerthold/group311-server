@@ -26,7 +26,7 @@ public class TCPServer implements Runnable {
 	static Players[] pArray;
 	static Board board;
 
-	static PrintStream ps;
+	//static PrintStream ps;
 	static BufferedReader inFromClient;
 	static InputStreamReader isr;
 
@@ -81,21 +81,49 @@ public class TCPServer implements Runnable {
 					pArray[3] = p4;
 					
 					
+					
 					PrintStream ps1 = new PrintStream(connectionArray.get(0).getOutputStream(), true);
 					ps1.println("1");
 					for (int i =0; i<4; i++)
 					{
 						String temp = new Gson().toJson(board.player1TrainHandStack.get(i));
-						
 						ps1.println(temp);
 					}
+					for (int i = 0; i < 2; i++) {
+						String temp = new Gson().toJson(new MissionCard(
+								new Town(board.player1MissionHandStack.get(i).getTownA().getName(),
+										board.player1MissionHandStack.get(i).getTownA().getAmountOfConnections(),
+										board.player1MissionHandStack.get(i).getTownA().getxPos(),
+										board.player1MissionHandStack.get(i).getTownA().getyPos()), 
+								new Town(board.player1MissionHandStack.get(i).getTownB().getName(),
+										board.player1MissionHandStack.get(i).getTownB().getAmountOfConnections(),
+										board.player1MissionHandStack.get(i).getTownB().getxPos(),
+										board.player1MissionHandStack.get(i).getTownB().getyPos()), 
+										board.player1MissionHandStack.get(i).getPoints()));
+								//System.out.println(board.player1MissionHandStack.size());
+						ps1.println(temp);
+					}
+					
 					
 					PrintStream ps2 = new PrintStream(connectionArray.get(1).getOutputStream(), true);
 					ps2.println("2");
 					for (int i =0; i<4; i++)
 					{
 						String temp = new Gson().toJson(board.player2TrainHandStack.get(i));
-						
+						ps2.println(temp);
+					}
+					for (int i = 0; i < 2; i++) {
+						String temp = new Gson().toJson(new MissionCard(
+								new Town(board.player2MissionHandStack.get(i).getTownA().getName(),
+										board.player2MissionHandStack.get(i).getTownA().getAmountOfConnections(),
+										board.player2MissionHandStack.get(i).getTownA().getxPos(),
+										board.player2MissionHandStack.get(i).getTownA().getyPos()), 
+								new Town(board.player2MissionHandStack.get(i).getTownB().getName(),
+										board.player2MissionHandStack.get(i).getTownB().getAmountOfConnections(),
+										board.player2MissionHandStack.get(i).getTownB().getxPos(),
+										board.player2MissionHandStack.get(i).getTownB().getyPos()), 
+										board.player2MissionHandStack.get(i).getPoints()));
+								
 						ps2.println(temp);
 					}
 					
@@ -104,7 +132,20 @@ public class TCPServer implements Runnable {
 					for (int i =0; i<4; i++)
 					{
 						String temp = new Gson().toJson(board.player3TrainHandStack.get(i));
-						
+						ps3.println(temp);
+					}
+					for (int i = 0; i < 2; i++) {
+						String temp = new Gson().toJson(new MissionCard(
+								new Town(board.player3MissionHandStack.get(i).getTownA().getName(),
+										board.player3MissionHandStack.get(i).getTownA().getAmountOfConnections(),
+										board.player3MissionHandStack.get(i).getTownA().getxPos(),
+										board.player3MissionHandStack.get(i).getTownA().getyPos()), 
+								new Town(board.player3MissionHandStack.get(i).getTownB().getName(),
+										board.player3MissionHandStack.get(i).getTownB().getAmountOfConnections(),
+										board.player3MissionHandStack.get(i).getTownB().getxPos(),
+										board.player3MissionHandStack.get(i).getTownB().getyPos()), 
+										board.player3MissionHandStack.get(i).getPoints()));
+								
 						ps3.println(temp);
 					}
 					
@@ -113,9 +154,46 @@ public class TCPServer implements Runnable {
 					for (int i =0; i<4; i++)
 					{
 						String temp = new Gson().toJson(board.player4TrainHandStack.get(i));
-						
 						ps4.println(temp);
 					} 
+					for (int i = 0; i < 2; i++) {
+						String temp = new Gson().toJson(new MissionCard(
+								new Town(board.player4MissionHandStack.get(i).getTownA().getName(),
+										board.player4MissionHandStack.get(i).getTownA().getAmountOfConnections(),
+										board.player4MissionHandStack.get(i).getTownA().getxPos(),
+										board.player4MissionHandStack.get(i).getTownA().getyPos()), 
+								new Town(board.player4MissionHandStack.get(i).getTownB().getName(),
+										board.player4MissionHandStack.get(i).getTownB().getAmountOfConnections(),
+										board.player4MissionHandStack.get(i).getTownB().getxPos(),
+										board.player4MissionHandStack.get(i).getTownB().getyPos()), 
+										board.player4MissionHandStack.get(i).getPoints()));
+								
+						ps4.println(temp);
+					}
+					for (int i = 0; i < connectionArray.size(); i++) {
+						PrintStream ps = new PrintStream(connectionArray.get(i).getOutputStream(), true);
+						for (int j = 0; j < 5; j++) {
+							String temp = new Gson().toJson(board.displayedTrainStack.get(j));
+							ps.println(temp);
+							//System.out.println(board.displayedTrainStack.get(j).getColor().getColorName());
+						}
+					}
+					for (int i = 0; i < connectionArray.size(); i++) {
+						PrintStream ps = new PrintStream(connectionArray.get(i).getOutputStream(), true);
+						for (int j = 0; j < 75; j++) {
+							String temp = new Gson().toJson(board.arrayOfTrainCards.get(j));
+							ps.println(temp);
+						}
+					}
+					for (int i = 0; i < connectionArray.size(); i++) {
+						PrintStream ps = new PrintStream(connectionArray.get(i).getOutputStream(), true);
+						for (int j = 0; j < 30; j++) {
+							String temp = new Gson().toJson(board.arrayOfMissionCards.get(j));
+							ps.println(temp);
+						}
+					}
+					
+					
 					
 					//String playerHand1 = serializer.toJson(board.player1TrainHandStack);
 

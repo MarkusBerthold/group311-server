@@ -520,13 +520,11 @@ public class Board {
 		arrayOfTrainCards.remove(0);
 		}
 		 
-		
 		for(int i = 0; i < 4; i++) {
 			player2TrainHandStack.add(arrayOfTrainCards.get(0));
 			arrayOfTrainCards.remove(0);
 		}
 			
-		
 		for(int i = 0; i < 4; i++) {
 			player3TrainHandStack.add(arrayOfTrainCards.get(0));
 			arrayOfTrainCards.remove(0);
@@ -537,18 +535,40 @@ public class Board {
 			arrayOfTrainCards.remove(0);
 		}
 		
+		for(int i = 0; i < 2; i++) {
+			player1MissionHandStack.add(arrayOfMissionCards.get(0));
+			arrayOfMissionCards.remove(0);	
+		}
+		
+		for(int i = 0; i < 2; i++) {
+			player2MissionHandStack.add(arrayOfMissionCards.get(0));
+			arrayOfMissionCards.remove(0);	
+		}
+		
+		for(int i = 0; i < 2; i++) {
+			player3MissionHandStack.add(arrayOfMissionCards.get(0));
+			arrayOfMissionCards.remove(0);	
+		}
+		
+		for(int i = 0; i < 2; i++) {
+			player4MissionHandStack.add(arrayOfMissionCards.get(0));
+			arrayOfMissionCards.remove(0);	
+		}
+		
+		
+		
 		/*
 		 * Tasks, which should happen in 1 for loop: 
 		 * copy card from arrayOfTrainCards to displayedTrainStack
 		 * the copied card in arrayOfTrainCards should be removed
 		 */
-//		int displayedTrainCardIncrementer = 2;
+		int displayedTrainCardIncrementer = 2;
 
 		for (int i = 0; i < 5; i++) {
 			displayedTrainStack.add(arrayOfTrainCards.get(0)); // card#deckOfA --> card#playerHandStack
-//			displayedTrainStack.get(i).yPos = 85 * displayedTrainCardIncrementer;
+			displayedTrainStack.get(i).yPos = 85 * displayedTrainCardIncrementer;
 			arrayOfTrainCards.remove(0); // card#deckOfA --> remove
-//			displayedTrainCardIncrementer++;
+			displayedTrainCardIncrementer++;
 		}
 		
 		// CONTROL: amount of train cards in the displayed card stack

@@ -94,4 +94,16 @@ public class Card {
 	public int getyPos() {
 		return yPos;
 	}
+	public Town getTownA() {
+	return null;
+	}
+
+
+	public Town getTownB() {
+		return null;
+	}
+	
+	public int getPoints(){
+		return 0;
+	}
 }
