@@ -188,7 +188,16 @@ public class TCPServer implements Runnable {
 					for (int i = 0; i < connectionArray.size(); i++) {
 						PrintStream ps = new PrintStream(connectionArray.get(i).getOutputStream(), true);
 						for (int j = 0; j < 30; j++) {
-							String temp = new Gson().toJson(board.arrayOfMissionCards.get(j));
+							String temp = new Gson().toJson(new MissionCard(
+							new Town(board.arrayOfMissionCards.get(j).getTownA().getName(),
+									board.arrayOfMissionCards.get(j).getTownA().getAmountOfConnections(),
+									board.arrayOfMissionCards.get(j).getTownA().getxPos(),
+									board.arrayOfMissionCards.get(j).getTownA().getyPos()), 
+							new Town(board.arrayOfMissionCards.get(j).getTownB().getName(),
+									board.arrayOfMissionCards.get(j).getTownB().getAmountOfConnections(),
+									board.arrayOfMissionCards.get(j).getTownB().getxPos(),
+									board.arrayOfMissionCards.get(j).getTownB().getyPos()), 
+									board.arrayOfMissionCards.get(j).getPoints()));
 							ps.println(temp);
 						}
 					}
