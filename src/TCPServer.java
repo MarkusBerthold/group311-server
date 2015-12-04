@@ -15,8 +15,10 @@ public class TCPServer implements Runnable {
 
 	Socket csocket;
 	int missionCardStackCounter= 22;
+	int currentPlayer = 1;
 	
 	static String msg;
+	static boolean hasBeenSent = false;
 	
 
 	TCPServer(Socket csocket) {
@@ -29,10 +31,14 @@ public class TCPServer implements Runnable {
 
 	static Players[] pArray;
 	static Board board;
+	
+	static int whoseTurnItIs;
 
 	//static PrintStream ps;
 	static BufferedReader inFromClient;
 	static InputStreamReader isr;
+	
+	static int globalAmountOfTrainCards = 75;
 
 	public static void main(String[] args) throws IOException, SlickException {
 
@@ -78,11 +84,13 @@ public class TCPServer implements Runnable {
 					Players p4 = new Players(4, board.colors[4]);
 					p4.setSock(connectionArray.get(3));
 
-					pArray = new Players[4];
+				/*	pArray = new Players[4];
 					pArray[0] = p1;
 					pArray[1] = p2;
 					pArray[2] = p3;
-					pArray[3] = p4;
+					pArray[3] = p4; */
+					
+					
 					
 					
 					
@@ -107,6 +115,8 @@ public class TCPServer implements Runnable {
 								//System.out.println(board.player1MissionHandStack.size());
 						ps1.println(temp);
 					}
+					String temp1 = new Gson().toJson(new Players(p1.playerNum, p1.getPlColor()));
+					ps1.println(temp1);
 					
 					
 					PrintStream ps2 = new PrintStream(connectionArray.get(1).getOutputStream(), true);
@@ -130,6 +140,8 @@ public class TCPServer implements Runnable {
 								
 						ps2.println(temp);
 					}
+					String temp2 = new Gson().toJson(new Players(p2.playerNum, p2.getPlColor()));
+					ps2.println(temp2);
 					
 					PrintStream ps3 = new PrintStream(connectionArray.get(2).getOutputStream(), true);
 					ps3.println("3");
@@ -152,6 +164,8 @@ public class TCPServer implements Runnable {
 								
 						ps3.println(temp);
 					}
+					String temp3 = new Gson().toJson(new Players(p3.playerNum, p3.getPlColor()));
+					ps3.println(temp3);
 					
 					PrintStream ps4 = new PrintStream(connectionArray.get(3).getOutputStream(), true);
 					ps4.println("4");
@@ -174,6 +188,9 @@ public class TCPServer implements Runnable {
 								
 						ps4.println(temp);
 					}
+					String temp4 = new Gson().toJson(new Players(p4.playerNum, p4.getPlColor()));
+					ps4.println(temp4);
+					
 					for (int i = 0; i < connectionArray.size(); i++) {
 						PrintStream ps = new PrintStream(connectionArray.get(i).getOutputStream(), true);
 						for (int j = 0; j < 5; j++) {
@@ -240,6 +257,12 @@ public class TCPServer implements Runnable {
 				String[] iAmMsg = new String[20];
 				if (msg.contains("state1")) {
 					
+					/*whoseTurnItIs++;
+					
+					if (whoseTurnItIs > 4) {
+						whoseTurnItIs = 1;
+					} */
+					
 						
 					System.out.println("reached state 1!");
 					System.out.println(board.arrayOfMissionCards.size());
@@ -260,35 +283,170 @@ public class TCPServer implements Runnable {
 												
 						System.out.println(board.arrayOfMissionCards.get(i).getTownA().getName());
 					}
+					
 					int tmpHand= board.player1MissionHandStack.size();
 					
-for(int i= 0; i< board.player1MissionHandStack.size(); i++){
+					for(int i= 0; i< board.player1MissionHandStack.size(); i++){
 						
 						board.player1MissionHandStack.remove(0);
 					}
-for(int i= 0; i<tmpHand +2; i++ ){
+					for(int i= 0; i<tmpHand +2; i++ ){
 	
-	String msg1 = inFromClient.readLine();
-	MissionCard c= new Gson().fromJson(msg1, MissionCard.class);
-	board.player1MissionHandStack.add(c);
+						String msg1 = inFromClient.readLine();
+						MissionCard c= new Gson().fromJson(msg1, MissionCard.class);
+						board.player1MissionHandStack.add(c);
 	
 	
-}
+					}
 					
-					
+				/*	if (whoseTurnItIs == 1) {
+						PrintStream ps1 = new PrintStream(connectionArray.get(0).getOutputStream(), true);
+						ps1.println("CanAct");
+					}
+					if (whoseTurnItIs == 2) {
+						PrintStream ps2 = new PrintStream(connectionArray.get(1).getOutputStream(), true);
+						ps2.println("CanAct");
+					}
+					if (whoseTurnItIs == 3) {
+						PrintStream ps3 = new PrintStream(connectionArray.get(2).getOutputStream(), true);
+						ps3.println("CanAct");
+					}
+					if (whoseTurnItIs == 4) {
+						PrintStream ps4 = new PrintStream(connectionArray.get(3).getOutputStream(), true);
+						ps4.println("CanAct");
+					} */
 					
 					// listen to whatever
+					System.out.println(whoseTurnItIs);
 					System.out.println("Changed to state1");
 
-				} else if (inFromClient.readLine().contains("state2")) {
+				} else if (msg.contains("state2")) {
+					
+				/*	whoseTurnItIs++;
+					
+					if (whoseTurnItIs > 4) {
+						whoseTurnItIs = 1;
+					} */
+					
+					globalAmountOfTrainCards -=2;
+					
+					for (int i = 0; i < board.arrayOfTrainCards.size(); i++) {
+						board.arrayOfTrainCards.remove(0);
+						
+					}
+					board.arrayOfTrainCards.clear();
+					
+					
+					for (int i = 0; i < globalAmountOfTrainCards; i++) {
+						String msg1 = inFromClient.readLine();
+						Card c = new Gson().fromJson(msg1, Card.class);
+						board.arrayOfTrainCards.add(c);
+					}
+					int tmpPlayerhand = board.player1TrainHandStack.size()+2;
+					
+					board.player1TrainHandStack.clear();
+					for (int i = 0; i < tmpPlayerhand; i++) {
+						String msg1 = inFromClient.readLine();
+						Card c = new Gson().fromJson(msg1, Card.class);
+						board.player1TrainHandStack.add(c);
+						
+					}
+					
+					board.displayedTrainStack.clear();					
+					
+					for (int i=0; i<5; i++)
+					{
+						String msg1 = inFromClient.readLine();
+						Card c = new Gson().fromJson(msg1, Card.class);
+						board.displayedTrainStack.add(c);
+						
+					}
+					
+				/*	if (whoseTurnItIs == 1) {
+						PrintStream ps1 = new PrintStream(connectionArray.get(0).getOutputStream(), true);
+						ps1.println("CanAct");
+					}
+					if (whoseTurnItIs == 2) {
+						PrintStream ps2 = new PrintStream(connectionArray.get(1).getOutputStream(), true);
+						ps2.println("CanAct");
+					}
+					if (whoseTurnItIs == 3) {
+						PrintStream ps3 = new PrintStream(connectionArray.get(2).getOutputStream(), true);
+						ps3.println("CanAct");
+					}
+					if (whoseTurnItIs == 4) {
+						PrintStream ps4 = new PrintStream(connectionArray.get(3).getOutputStream(), true);
+						ps4.println("CanAct");
+					} */
+					
+					
 					// listen to whatever
+					System.out.println(whoseTurnItIs);
 					System.out.println("Changed to state2");
 
-				} else if (inFromClient.readLine().contains("state3")) {
+				} else if (msg.contains("state3")) {
+					
+				/*	whoseTurnItIs++;
+					
+					if (whoseTurnItIs > 4) {
+						whoseTurnItIs = 1;
+					} */
+					
+					
 
 					// listen to whatever
+					
+					board.arrayOfTrainCards.clear();
+					
+					for (int i = 0; i < 100; i++) {
+						String msg1 = inFromClient.readLine();
+						if (msg1.contains("stop"))
+						{
+							break;
+						} else {
+						Card c = new Gson().fromJson(msg1, Card.class);
+						board.arrayOfTrainCards.add(c);
+						}
+					}
+					
+					board.player1TrainHandStack.clear();
+					for (int i = 0; i < 100; i++) {
+						String msg1 = inFromClient.readLine();
+						if (msg1.contains("stop")) {
+							break;
+						} else {
+							Card c = new Gson().fromJson(msg1, Card.class);
+							board.player1TrainHandStack.add(c);
+						}
+					}
+					
+					for (int i = 0; i < board.connections.size(); i++) {
+						String msg1 = inFromClient.readLine();
+						int msg2 = Integer.parseInt(msg1);
+						board.connections.get(i).setTakenByPlayer(msg2);
+					}
+					
+				/*	if (whoseTurnItIs == 1) {
+						PrintStream ps1 = new PrintStream(connectionArray.get(0).getOutputStream(), true);
+						ps1.println("CanAct");
+					}
+					if (whoseTurnItIs == 2) {
+						PrintStream ps2 = new PrintStream(connectionArray.get(1).getOutputStream(), true);
+						ps2.println("CanAct");
+					}
+					if (whoseTurnItIs == 3) {
+						PrintStream ps3 = new PrintStream(connectionArray.get(2).getOutputStream(), true);
+						ps3.println("CanAct");
+					}
+					if (whoseTurnItIs == 4) {
+						PrintStream ps4 = new PrintStream(connectionArray.get(3).getOutputStream(), true);
+						ps4.println("CanAct");
+					} */
 
+					System.out.println(whoseTurnItIs);
 					System.out.println("Changed to state3");
+					
+					
 				} else {
 					System.out.println("Activator was not 1 nor 2 nor states");
 					System.out.println("The wrongly incoming message was ----------" + inFromClient.readLine());
