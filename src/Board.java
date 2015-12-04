@@ -30,6 +30,8 @@ public class Board {
 
 	int blueColorCounter, redColorCounter, orangeColorCounter, whiteColorCounter, yellowColorCounter, blackColorCounter, greenColorCounter, pinkColorCounter;
 	int handTrainCardIncrementer;
+	int missionCardIncrementer = 22;
+	
 	
 	Board(int numOfPlayers) throws SlickException {
 		

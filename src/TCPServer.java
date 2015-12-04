@@ -14,6 +14,10 @@ import org.newdawn.slick.SlickException;
 public class TCPServer implements Runnable {
 
 	Socket csocket;
+	int missionCardStackCounter= 22;
+	
+	static String msg;
+	
 
 	TCPServer(Socket csocket) {
 		this.csocket = csocket;
@@ -187,7 +191,7 @@ public class TCPServer implements Runnable {
 					}
 					for (int i = 0; i < connectionArray.size(); i++) {
 						PrintStream ps = new PrintStream(connectionArray.get(i).getOutputStream(), true);
-						for (int j = 0; j < 30; j++) {
+						for (int j = 0; j < 22; j++) {
 							String temp = new Gson().toJson(new MissionCard(
 							new Town(board.arrayOfMissionCards.get(j).getTownA().getName(),
 									board.arrayOfMissionCards.get(j).getTownA().getAmountOfConnections(),
@@ -201,6 +205,9 @@ public class TCPServer implements Runnable {
 							ps.println(temp);
 						}
 					}
+					
+					
+					ps1.println("CanAct");
 					
 					
 					
@@ -221,21 +228,63 @@ public class TCPServer implements Runnable {
 					System.out.println("Game is ready");
 				}
 
-				isr = new InputStreamReader(csocket.getInputStream());
+				InputStreamReader isr = new InputStreamReader(csocket.getInputStream());
 
-				inFromClient = new BufferedReader(isr);
+				BufferedReader inFromClient = new BufferedReader(isr);
 
-				String msg = inFromClient.readLine();
-
+				
+				
+				
+				 msg = inFromClient.readLine();
+				
+				String[] iAmMsg = new String[20];
 				if (msg.contains("state1")) {
+					
+						
+					System.out.println("reached state 1!");
+					System.out.println(board.arrayOfMissionCards.size());
+					
+					for (int i=0; i<board.arrayOfMissionCards.size();i++){
+					board.arrayOfMissionCards.remove(0);
+					}
+					
+					
+					
+					for(int i= 0; i< 20; i++){
+						
+					
+						String msg1 = inFromClient.readLine();
+						MissionCard c= new Gson().fromJson(msg1, MissionCard.class);
+						board.arrayOfMissionCards.add(c);
+						
+												
+						System.out.println(board.arrayOfMissionCards.get(i).getTownA().getName());
+					}
+					int tmpHand= board.player1MissionHandStack.size();
+					
+for(int i= 0; i< board.player1MissionHandStack.size(); i++){
+						
+						board.player1MissionHandStack.remove(0);
+					}
+for(int i= 0; i<tmpHand +2; i++ ){
+	
+	String msg1 = inFromClient.readLine();
+	MissionCard c= new Gson().fromJson(msg1, MissionCard.class);
+	board.player1MissionHandStack.add(c);
+	
+	
+}
+					
+					
+					
 					// listen to whatever
 					System.out.println("Changed to state1");
 
-				} else if (msg.contains("state2")) {
+				} else if (inFromClient.readLine().contains("state2")) {
 					// listen to whatever
 					System.out.println("Changed to state2");
 
-				} else if (msg.contains("state3")) {
+				} else if (inFromClient.readLine().contains("state3")) {
 
 					// listen to whatever
 
@@ -246,7 +295,8 @@ public class TCPServer implements Runnable {
 				}
 
 			}
-		} catch (
+		} 
+				catch (
 
 		Exception e)
 
